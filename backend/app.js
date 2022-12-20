@@ -20,7 +20,7 @@ app.use(express.json());
 
 // Security Middleware
 if (!isProduction) {
-  // enable cors only in development
+  // enable cors only in developmentf
   app.use(cors());
 }
 
