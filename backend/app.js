@@ -51,5 +51,16 @@ app.use((_req, _res, next) => {
   err.status = 404;
   next(err);
 });
+const { ValidationError } = require('sequelize');
+
+// Process sequelize errors
+app.use((err, _req, _res, next) => {
+  // check if error is a Sequelize error:
+  if (err instanceof ValidationError) {
+    err.errors = err.errors.map((e) => e.message);
+    err.title = 'Validation error';
+  }
+  next(err);
+});
 app.use(routes); // Connect all the routes
 module.exports = app;
