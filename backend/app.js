@@ -73,5 +73,5 @@ app.use((err, _req, res, _next) => {
     stack: isProduction ? null : err.stack
   });
 });
-app.use(routes); // Connect all the routes
+app.use(routes); // Connect all the routes/
 module.exports = app;
