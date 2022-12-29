@@ -17,11 +17,11 @@ module.exports = {
           type: Sequelize.INTEGER,
         },
         firstName: {
-          type: Sequelize.STRING,
+          type: Sequelize.STRING(30),
           allowNull: false,
         },
         lastName: {
-          type: Sequelize.STRING,
+          type: Sequelize.STRING(30),
           allowNull: false,
         },
         username: {
@@ -53,41 +53,6 @@ module.exports = {
     );
   },
   down: async (queryInterface, Sequelize) => {
-    // options.tableName = 'Users';
-    return queryInterface.dropTable("Users",options);
+    return queryInterface.dropTable('Users', options);
   },
 };
-// 'use strict';
-// /** @type {import('sequelize-cli').Migration} */
-// module.exports = {
-//   async up(queryInterface, Sequelize) {
-//     await queryInterface.createTable('Users', {
-//       id: {
-//         allowNull: false,
-//         autoIncrement: true,
-//         primaryKey: true,
-//         type: Sequelize.INTEGER
-//       },
-//       username: {
-//         type: Sequelize.STRING
-//       },
-//       email: {
-//         type: Sequelize.STRING
-//       },
-//       hashedPassword: {
-//         type: Sequelize.STRING
-//       },
-//       createdAt: {
-//         allowNull: false,
-//         type: Sequelize.DATE
-//       },
-//       updatedAt: {
-//         allowNull: false,
-//         type: Sequelize.DATE
-//       }
-//     });
-//   },
-//   async down(queryInterface, Sequelize) {
-//     await queryInterface.dropTable('Users');
-//   }
-// };
