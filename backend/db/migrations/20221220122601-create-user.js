@@ -16,6 +16,14 @@ module.exports = {
           primaryKey: true,
           type: Sequelize.INTEGER,
         },
+        firstName: {
+          type: Sequelize.STRING,
+          allowNull: false,
+        },
+        lastName: {
+          type: Sequelize.STRING,
+          allowNull: false,
+        },
         username: {
           type: Sequelize.STRING(30),
           allowNull: false,
@@ -49,7 +57,7 @@ module.exports = {
     return queryInterface.dropTable(options);
   },
 };
-'use strict';
+// 'use strict';
 // /** @type {import('sequelize-cli').Migration} */
 // module.exports = {
 //   async up(queryInterface, Sequelize) {
