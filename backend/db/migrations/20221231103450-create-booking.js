@@ -1,36 +1,57 @@
 'use strict';
-const { Model } = require('sequelize');
 
-module.exports = (sequelize, DataTypes) => {
-  class Booking extends Model {
+let options = {};
+if (process.env.NODE_ENV === 'production') {
+  options.schema = process.env.SCHEMA;
+}
 
-    static associate(models) {
-
-    }
-  }
-  Booking.init(
-    {
-      spotId: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
+module.exports = {
+  async up(queryInterface, Sequelize) {
+    await queryInterface.createTable(
+      'Bookings',
+      {
+        id: {
+          allowNull: false,
+          autoIncrement: true,
+          primaryKey: true,
+          type: Sequelize.INTEGER,
+        },
+        spotId: {
+          type: Sequelize.INTEGER,
+          allowNull: false,
+          references: { model: 'Spots' },
+          // onDelete: "CASCADE"
+        },
+        userId: {
+          type: Sequelize.INTEGER,
+          allowNull: false,
+          references: { model: 'Users' },
+          // onDelete: "CASCADE"
+        },
+        startDate: {
+          type: Sequelize.DATEONLY,
+          allowNull: false,
+        },
+        endDate: {
+          type: Sequelize.DATEONLY,
+          allowNull: false,
+        },
+        createdAt: {
+          allowNull: false,
+          type: Sequelize.DATE,
+          defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+        },
+        updatedAt: {
+          allowNull: false,
+          type: Sequelize.DATE,
+          defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+        },
       },
-      userId: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-      },
-      startDate: {
-        type: DataTypes.DATEONLY,
-        allowNull: false,
-      },
-      endDate: {
-        type: DataTypes.DATEONLY,
-        allowNull: false,
-      },
-    },
-    {
-      sequelize,
-      modelName: 'Booking',
-    }
-  );
-  return Booking;
+      options
+    );
+  },
+  async down(queryInterface, Sequelize) {
+    options.tableName = 'Bookings';
+    await queryInterface.dropTable(options);
+  },
 };
