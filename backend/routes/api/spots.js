@@ -205,6 +205,8 @@ router.get('/:spotId', async (req, res, next) => {
 
   return res.json(spot);
 });
+
+// 🔴 Create spot
 router.post('/', requireAuth, validateSpot, async (req, res, next) => {
   // get user
   let user = req.user;
@@ -225,6 +227,51 @@ router.post('/', requireAuth, validateSpot, async (req, res, next) => {
 
   res.status(201);
   return res.json(addSpot);
+});
+
+// 🔴 Add an Image to a Spot based on the Spot's id
+router.post('/:spotId/images', requireAuth, async (req, res, next) => {
+  let { spotId } = req.params;
+  let { url, preview } = req.body;
+
+    const spot = await Spot.findOne({
+      where: {
+        id: spotId,
+      },
+    });
+    if (!spot) {
+      res.status(404);
+      return res.json({
+        message: "Spot couldn't be found",
+        statusCode: 404,
+      });
+    }
+    //find owner id
+    const ownerId = spot.ownerId;
+    if (ownerId !== req.user.id) {
+      const err = new Error('Forbidden');
+      err.status = 403;
+      err.error = 'Forbidden';
+      res.status(403);
+      res.json(err);
+    }
+    
+    if (ownerId == req.user.id && spot) {
+      //only the owner can create image
+      const newImage = await SpotImage.create({
+        url,
+        preview,
+        spotId,
+      });
+      const newImageId = newImage.id;
+      const finalAdd = await SpotImage.findOne({
+        where: {
+          id: newImageId,
+        },
+        attributes: ['id', 'url', 'preview'],
+      });
+      res.json(finalAdd);
+    }
 });
 
 module.exports = router;
