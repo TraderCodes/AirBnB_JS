@@ -18,7 +18,6 @@ const spot = require('../../db/models/spot');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
 
-
 const validateSpotGetAll = [
   check('minLat')
     .optional()
@@ -47,7 +46,6 @@ const validateSpotGetAll = [
   handleValidationErrors,
 ];
 
-
 // 🔴 GET ALL SPOTS
 router.get('/', validateSpotGetAll, async (req, res, next) => {
   const getallSpots = await Spot.findAll({
@@ -68,7 +66,6 @@ router.get('/', validateSpotGetAll, async (req, res, next) => {
 
   Spots.forEach((spot) => {
     spot.SpotImages.forEach((spotImage) => {
-
       if (spotImage.url) {
         spot.previewImage = spotImage.url;
       }
@@ -83,33 +80,33 @@ router.get('/', validateSpotGetAll, async (req, res, next) => {
     delete spot.Reviews;
     delete spot.SpotImages;
   });
-  res.json({
+  return res.json({
     Spots,
   });
 });
 
 // 🔴 Get all Spots owned by the Current User
 router.get('/current', requireAuth, async (req, res, next) => {
-  let currentUser= req.user;
+  let currentUser = req.user;
   let getallSpots = await currentUser.getSpots({
     include: [
       {
         model: Review,
-        attributes: ['stars'],
+        // attributes: ['stars'],
       },
       {
         model: SpotImage,
-        attributes: ['url', 'preview'],
+        // attributes: ['url', 'preview'],
       },
     ],
   });
 
-  const Spots = [];
+  const spots = [];
   getallSpots.forEach((spot) => {
-    Spots.push(spot.toJSON());
+    spots.push(spot.toJSON());
   });
 
-  Spots.forEach((spot) => {
+  spots.forEach((spot) => {
     spot.SpotImages.forEach((spotImage) => {
       if (spotImage.url) {
         spot.previewImage = spotImage.url;
@@ -126,13 +123,64 @@ router.get('/current', requireAuth, async (req, res, next) => {
     delete spot.SpotImages;
   });
 
-  if (Spots.length === 0) {
+  if (spots.length === 0) {
     res.json("Sorry, you don't own any spots");
   }
 
-  res.json({
-    Spots,
+  return res.json({
+    spots,
   });
+});
+
+// 🔴Get details for a Spot from an id
+router.get('/:spotId', async (req, res, next) => {
+  let { spotId } = req.params;
+  let spot = await Spot.findByPk(spotId);
+  if (!spot) {
+    res.status(404);
+    return res.json({
+      message: "Spot couldn't be found",
+      statusCode: 404,
+    });
+  }
+  spot = spot.toJSON();
+
+  let count = await Review.count({
+    where: {
+      spotId: spotId,
+    },
+  });
+  spot.numReviews = count;
+  let sum = await Review.sum('stars', {
+    where: {
+      spotId: spotId,
+    },
+  });
+
+  if (sum / count) {
+    spot.avgStarRating = sum / count;
+  } else {
+    spot.avgStarRating = 'No ratings';
+  }
+  let spotImages = await SpotImage.findAll({
+    where: {
+      spotId: spotId,
+    },
+    attributes: ['id', 'url', 'preview'],
+  });
+
+  // Add image into spot
+  if (spotImages.length > 0) {
+    spot.SpotImages = spotImages;
+  } else {
+    spot.SpotImages = 'No images';
+  }
+  // Owner section
+  spot.Owner = await User.findByPk(spot.ownerId, {
+    attributes: ['id', 'firstName', 'lastName'],
+  });
+
+  return res.json(spot);
 });
 
 module.exports = router;
