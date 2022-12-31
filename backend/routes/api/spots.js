@@ -17,6 +17,29 @@ const { Op } = require('sequelize');
 const spot = require('../../db/models/spot');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
+const validateSpot = [
+  check('address').notEmpty().withMessage('Street address is required'),
+  check('country').notEmpty().withMessage('Country is required'),
+  check('state').notEmpty().withMessage('State is required'),
+  check('city').notEmpty().withMessage('City is required'),
+  check('lat', 'Latitude is not valid')
+    .notEmpty()
+    .bail()
+    .isDecimal()
+    .withMessage('Latitude is not valid'),
+  check('lng', 'Longitude is not valid')
+    .notEmpty()
+    .bail()
+    .isDecimal()
+    .withMessage('Longitude is not valid'),
+  check('name')
+    .notEmpty()
+    .isLength({ max: 50 })
+    .withMessage('Name must be less than 50 characters'),
+  check('price').notEmpty().withMessage('Price per day is required'),
+  check('description').notEmpty().withMessage('Description is required'),
+  handleValidationErrors,
+];
 
 const validateSpotGetAll = [
   check('minLat')
@@ -181,6 +204,27 @@ router.get('/:spotId', async (req, res, next) => {
   });
 
   return res.json(spot);
+});
+router.post('/', requireAuth, validateSpot, async (req, res, next) => {
+  // get user
+  let user = req.user;
+  const { address, city, state, country, lat, lng, name, description, price } =
+    req.body;
+  let addSpot = await Spot.create({
+    ownerId: user.id,
+    address,
+    city,
+    state,
+    country,
+    lat,
+    lng,
+    name,
+    description,
+    price,
+  });
+
+  res.status(201);
+  return res.json(addSpot);
 });
 
 module.exports = router;
