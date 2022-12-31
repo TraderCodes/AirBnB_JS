@@ -8,24 +8,36 @@ const { handleValidationErrors } = require('../../utils/validation');
 // validation middleware for Sign up
 const validateSignup = [
   check('email')
-  .exists({ checkFalsy: true })
-  .isEmail()
-  .withMessage('Please provide a valid email.'),
+    .exists({ checkFalsy: true })
+    .isEmail()
+    .withMessage('Please provide a valid email.'),
   check('username')
     .exists({ checkFalsy: true })
     .isLength({ min: 4 })
     .withMessage('Please provide a username with at least 4 characters.'),
-    check('username').not().isEmail().withMessage('Username cannot be an email.'),
-    check('password')
+  check('username').not().isEmail().withMessage('Username cannot be an email.'),
+  check('password')
     .exists({ checkFalsy: true })
     .isLength({ min: 6 })
     .withMessage('Password must be 6 characters or more.'),
-    handleValidationErrors,
-  ];
-  // sign up
-router.post('/',validateSignup, async (req, res) => {
-  const { email, password, username ,firstName, lastName } = req.body;
-  const user = await User.signup({ email, username, password , firstName, lastName});
+  check('firstName')
+    .exists({ checkFalsy: true })
+    .withMessage('Must Provide a first name'),
+  check('lastName')
+    .exists({ checkFalsy: true })
+    .withMessage('Must Provide a last name'),
+  handleValidationErrors,
+];
+// sign up
+router.post('/', validateSignup, async (req, res) => {
+  const { email, password, username, firstName, lastName } = req.body;
+  const user = await User.signup({
+    email,
+    username,
+    password,
+    firstName,
+    lastName,
+  });
 
   await setTokenCookie(res, user);
 
@@ -34,5 +46,3 @@ router.post('/',validateSignup, async (req, res) => {
   });
 });
 module.exports = router;
-
-
