@@ -229,49 +229,98 @@ router.post('/', requireAuth, validateSpot, async (req, res, next) => {
   return res.json(addSpot);
 });
 
+// 🔴 Edit a Spot
+
+router.put('/:spotId', requireAuth, validateSpot, async (req, res) => {
+  let { spotId } = req.params;
+  spotId = parseInt(spotId);
+  const { address, city, state, country, lat, lng, name, description, price } =
+    req.body;
+
+  const spotToUpdate = await Spot.findOne({
+    where: {
+      id: spotId,
+    },
+  });
+
+  if (!spotToUpdate) {
+    res.status(404);
+    return res.json({
+      message: "Spot couldn't be found",
+      statusCode: 404,
+    });
+  }
+
+  //Find spot ownerId
+  const ownerId = spotToUpdate.ownerId;
+
+  if (ownerId !== req.user.id) {
+    const err = new Error('Forbidden');
+    err.status = 403;
+    err.error = 'Forbidden';
+    res.status(403);
+    res.json(err);
+  }
+
+  if (spotToUpdate && ownerId === req.user.id) {
+    spotToUpdate.update({
+      address,
+      city,
+      state,
+      country,
+      lat,
+      lng,
+      name,
+      description,
+      price,
+    });
+    return res.json(spotToUpdate);
+  }
+});
+
 // 🔴 Add an Image to a Spot based on the Spot's id
 router.post('/:spotId/images', requireAuth, async (req, res, next) => {
   let { spotId } = req.params;
   let { url, preview } = req.body;
 
-    const spot = await Spot.findOne({
-      where: {
-        id: spotId,
-      },
+  const spot = await Spot.findOne({
+    where: {
+      id: spotId,
+    },
+  });
+  if (!spot) {
+    res.status(404);
+    return res.json({
+      message: "Spot couldn't be found",
+      statusCode: 404,
     });
-    if (!spot) {
-      res.status(404);
-      return res.json({
-        message: "Spot couldn't be found",
-        statusCode: 404,
-      });
-    }
-    //find owner id
-    const ownerId = spot.ownerId;
-    if (ownerId !== req.user.id) {
-      const err = new Error('Forbidden');
-      err.status = 403;
-      err.error = 'Forbidden';
-      res.status(403);
-      res.json(err);
-    }
-    
-    if (ownerId == req.user.id && spot) {
-      //only the owner can create image
-      const newImage = await SpotImage.create({
-        url,
-        preview,
-        spotId,
-      });
-      const newImageId = newImage.id;
-      const finalAdd = await SpotImage.findOne({
-        where: {
-          id: newImageId,
-        },
-        attributes: ['id', 'url', 'preview'],
-      });
-      res.json(finalAdd);
-    }
+  }
+  //find owner id
+  const ownerId = spot.ownerId;
+  if (ownerId !== req.user.id) {
+    const err = new Error('Forbidden');
+    err.status = 403;
+    err.error = 'Forbidden';
+    res.status(403);
+    res.json(err);
+  }
+
+  if (ownerId == req.user.id && spot) {
+    //only the owner can create image
+    const newImage = await SpotImage.create({
+      url,
+      preview,
+      spotId,
+    });
+    const newImageId = newImage.id;
+    const finalAdd = await SpotImage.findOne({
+      where: {
+        id: newImageId,
+      },
+      attributes: ['id', 'url', 'preview'],
+    });
+    return res.json(finalAdd);
+  }
 });
 
 module.exports = router;
