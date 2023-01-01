@@ -17,6 +17,17 @@ const { Op } = require('sequelize');
 const spot = require('../../db/models/spot');
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
+
+const validateReviews = [
+  check('review')
+    .exists({ checkFalsy: true })
+    .withMessage('Review text is required.'),
+  check('stars')
+    .exists({ checkFalsy: true })
+    .isInt({ min: 1, max: 5 })
+    .withMessage('Stars must be an integer from 1 to 5.'),
+  handleValidationErrors,
+];
 const validateSpot = [
   check('address').notEmpty().withMessage('Street address is required'),
   check('country').notEmpty().withMessage('Country is required'),
@@ -360,7 +371,59 @@ router.delete('/:spotId', requireAuth, async (req, res) => {
     });
   }
 });
+//😡 Create a review for spot based on spot's Id
+
+router.post(
+  '/:spotId/reviews',
+  requireAuth,
+  validateReviews,
+  async (req, res) => {
+    const { review, stars } = req.body;
+    let { spotId } = req.params;
+    spotId = parseInt(spotId);
+    const sessionUserId = req.user.id;
+    const reviewToCreate = await Review.findAll({
+      where: {
+        spotId,
+      },
+    });
+    const spotToCreate = await Spot.findOne({
+      where: {
+        id: spotId,
+      },
+    });
+
+    for (let review of reviewToCreate) {
+      // user can't not have more than one review
+      if (review.userId === sessionUserId) {
+        const err = new Error('User already has a review for this spot');
+        err.error = 'User already has a review for this spot';
+        err.status = 403;
+        res.status(403);
+        res.json(err);
+      }
+    }
+
+    if (spotToCreate) {
+      const createReview = await Review.create({
+        spotId,
+        userId: sessionUserId,
+        review,
+        stars,
+      });
+      res.status(201);
+      return res.json(createReview);
+    } else {
+      res.status(404);
+      return res.json({
+        message: "Couldn't find a Spot with the specified id",
+        statusCode: 404,
+      });
+    }
+  }
+);
 //😡 Get all Reviews by a Spot's id
+
 router.get('/:spotId/reviews', async (req, res) => {
   let { spotId } = req.params;
   spotId = parseInt(spotId);
@@ -380,7 +443,7 @@ router.get('/:spotId/reviews', async (req, res) => {
       },
     ],
   });
-  
+
   if (reviews.length !== 0) {
     return res.json({ Reviews: reviews });
   } else if (reviews.length === 0) {
@@ -391,4 +454,5 @@ router.get('/:spotId/reviews', async (req, res) => {
     });
   }
 });
+
 module.exports = router;
