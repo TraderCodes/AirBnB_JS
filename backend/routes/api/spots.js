@@ -457,43 +457,105 @@ router.get('/:spotId/reviews', async (req, res) => {
 });
 
 //❤ Get all Bookings with spot ID
+// router.get('/:spotId/bookings', requireAuth, async (req, res) => {
+//   let { spotId } = req.params;
+//   spotId = parseInt(spotId);
+
+//   const normanBooking = await Booking.findOne({
+//     where: {
+//       spotId,
+//     },
+//     attributes: ['spotId', 'startDate', 'endDate'],
+//   });
+//   const ownerBookings = await Booking.findOne({
+//     where: {
+//       spotId,
+//     },
+//     include: [
+//       {
+//         model: User,
+//         attributes: ['id', 'firstName', 'lastName'],
+//       },
+//     ],
+//   });
+
+//   if (!ownerBookings) {
+//     res.status(404);
+//     return res.json({
+//       message: "Spot couldn't be found",
+//       statusCode: 404,
+//     });
+//   }
+//   console.log(ownerBookings);
+//   const sessionUserId = req.user.id;
+//   const userId = ownerBookings.userId;
+//   const startDate = normanBooking.dataValues.startDate.split(' ')[0];
+//   const endDate = normanBooking.dataValues.startDate.split(' ')[0];
+//   if (userId == sessionUserId) {
+//     return res.json({
+//       Bookings: {
+//         User :ownerBookings.User,
+//         id: ownerBookings.id,
+//         spotId: ownerBookings.spotId,
+//         userId: ownerBookings.userId,
+//         startDate: startDate,
+//         endDate: endDate,
+//         createdAt: ownerBookings.createdAt,
+//         updatedAt: ownerBookings.updatedAt,
+//       },
+//     });
+//   } else if (userId != sessionUserId) {
+//     // is the owner
+//     return res.json({
+//       Bookings: normanBooking,
+//     });
+//   }
+
+//   return res.json(ownerBookings);
+// });
+// Get all Bookings for a Spot based on the Spot's id
 router.get('/:spotId/bookings', requireAuth, async (req, res, next) => {
   const { spotId } = req.params;
   const user = req.user;
 
   const spot = await Spot.findByPk(spotId);
-
-  const bookings = await Booking.findOne({
-    where: {
-      spotId,
-    },
-    include: [
-      {
-        model: User,
-        attributes: ['id', 'firstName', 'lastName'],
+    const ownerBookings = await Booking.findOne({
+      where: {
+        spotId,
       },
-    ],
-  });
-  if (!bookings) {
-    res.status(404);
-    return res.json({
-      message: "Spot couldn't be found",
-      statusCode: 404,
+      include: [
+        {
+          model: User,
+          attributes: ['id', 'firstName', 'lastName'],
+        },
+      ],
     });
-  }
+    if (!ownerBookings ) {
+      res.status(404);
+      return res.json({
+        message: "Spot couldn't be found",
+        statusCode: 404,
+      });
+    }
+  let bookings = await spot.getBookings({
+    include: {
+      model: User,
+      attributes: ['id', 'firstName', 'lastName'],
+    },
+  });
 
   const bookList = [];
   bookings.forEach((booking) => {
     booking = booking.toJSON();
     if (user.id !== spot.ownerId) {
-      let singleBookings = {
+      let eachBooking = {
         spotId: booking.spotId,
         startDate: booking.startDate.split(' ')[0],
         endDate: booking.endDate.split(' ')[0],
       };
-      bookList.push(singleBookings);
+      bookList.push(eachBooking);
     } else {
-      let singleBookings = {
+      let eachBooking = {
         User: booking.User,
         spotId: booking.spotId,
         userId: booking.userId,
@@ -502,7 +564,7 @@ router.get('/:spotId/bookings', requireAuth, async (req, res, next) => {
         createdAt: booking.createdAt,
         updatedAt: booking.updatedAt,
       };
-      bookList.push(singleBookings);
+      bookList.push(eachBooking);
     }
   });
 
