@@ -527,8 +527,8 @@ router.post('/:spotId/bookings', requireAuth, async (req, res, next) => {
   let { startDate, endDate } = req.body;
   const { spotId } = req.params;
   const user = req.user;
-  startDate = convertDate(startDate);
   endDate = convertDate(endDate);
+  startDate = convertDate(startDate);
 
   const currentSpot = await Spot.findOne({
     where: {
@@ -544,14 +544,7 @@ router.post('/:spotId/bookings', requireAuth, async (req, res, next) => {
     });
   }
   const spot = await Spot.findByPk(spotId);
-
   const err = {};
-  if (startDate <= new Date()) {
-    err.statusCode = 403;
-    err.message = 'Start date cannot be before today';
-    return next(err);
-  }
-
   if (startDate >= endDate) {
     res.status(400);
     return res.json({
@@ -560,11 +553,17 @@ router.post('/:spotId/bookings', requireAuth, async (req, res, next) => {
       errors: ['endDate cannot be on or before startDate'],
     });
   }
+  if (startDate <= new Date()) {
+    err.statusCode = 403;
+    err.message = 'Start date cannot be before today';
+    return next(err);
+  }
+
 
   if (user.id === spot.ownerId) {
     err.title = "Owner can't make own Bookings";
     err.status = 403;
-    err.message = 'Current user is using';
+    err.message = 'You are the current booking owner ';
     return next(err);
   }
 
