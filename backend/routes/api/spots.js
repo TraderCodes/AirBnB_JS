@@ -7,6 +7,7 @@ const {
   User,
   SpotImage,
   sequelize,
+  Booking,
 } = require('../../db/models');
 const {
   setTokenCookie,
@@ -453,6 +454,61 @@ router.get('/:spotId/reviews', async (req, res) => {
       statusCode: 404,
     });
   }
+});
+
+//❤ Get all Bookings with spot ID
+router.get('/:spotId/bookings', requireAuth, async (req, res, next) => {
+  const { spotId } = req.params;
+  const user = req.user;
+
+  const spot = await Spot.findByPk(spotId);
+
+  const bookings = await Booking.findOne({
+    where: {
+      spotId,
+    },
+    include: [
+      {
+        model: User,
+        attributes: ['id', 'firstName', 'lastName'],
+      },
+    ],
+  });
+  if (!bookings) {
+    res.status(404);
+    return res.json({
+      message: "Spot couldn't be found",
+      statusCode: 404,
+    });
+  }
+
+  const bookList = [];
+  bookings.forEach((booking) => {
+    booking = booking.toJSON();
+    if (user.id !== spot.ownerId) {
+      let singleBookings = {
+        spotId: booking.spotId,
+        startDate: booking.startDate.split(' ')[0],
+        endDate: booking.endDate.split(' ')[0],
+      };
+      bookList.push(singleBookings);
+    } else {
+      let singleBookings = {
+        User: booking.User,
+        spotId: booking.spotId,
+        userId: booking.userId,
+        startDate: booking.startDate.split(' ')[0],
+        endDate: booking.endDate.split(' ')[0],
+        createdAt: booking.createdAt,
+        updatedAt: booking.updatedAt,
+      };
+      bookList.push(singleBookings);
+    }
+  });
+
+  return res.json({
+    Bookings: bookList,
+  });
 });
 
 module.exports = router;
