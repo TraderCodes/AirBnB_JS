@@ -15,57 +15,6 @@ const { check } = require('express-validator');
 const review = require('../../db/models/review');
 const { handleValidationErrors } = require('../../utils/validation');
 
-// 🔴 Get all Reviews of the Current User
-router.get('/current', requireAuth, async (req, res) => {
-  const userId = req.user.id;
-  const reviews = await Review.findAll({
-    where: {
-      userId,
-    },
-    include: [
-      {
-        model: Spot,
-        attributes: {
-          exclude: ['createdAt', 'updatedAt', 'description'],
-        },
-        include: [
-          {
-            model: SpotImage,
-          },
-        ],
-      },
-      {
-        model: User,
-        attributes: ['id', 'firstName', 'lastName'],
-      },
-
-      {
-        model: ReviewImage,
-        attributes: ['id', 'url'],
-      },
-    ],
-  });
-
-  let finalList = [];
-  // console.log(finalList)
-  reviews.forEach((singleReview) => {
-    finalList.push(singleReview.toJSON());
-  });
-
-  finalList.forEach((review) => {
-    review.Spot.SpotImages.forEach((image) => {
-      if (!review.Spot.previewImage) {
-        review.Spot.previewImage = 'no image found';
-      }
-      if (image.preview === true) {
-        review.Spot.previewImage = image.url;
-      }
-    });
-    delete review.Spot.SpotImages;
-  });
-
-  return res.json(finalList);
-});
 
 //😡 Add an Image to a Review based on the Review's id
 
@@ -119,15 +68,15 @@ router.post('/:reviewId/images', requireAuth, async (req, res) => {
     findReview &&
     reviewOwnerId === sessionUserId &&
     reviewImageNumber.length < 10
-  ) {
-    const newReviewImage = await ReviewImage.create({
-      url,
-      reviewId,
-    });
-    const newReviewId = newReviewImage.id;
+    ) {
+      const newReviewImage = await ReviewImage.create({
+        url,
+        reviewId,
+      });
+      const newReviewId = newReviewImage.id;
 
-    const imageReview = await ReviewImage.findOne({
-      where: {
+      const imageReview = await ReviewImage.findOne({
+        where: {
         id: newReviewId,
       },
       attributes: ['id', 'url'],
@@ -137,6 +86,57 @@ router.post('/:reviewId/images', requireAuth, async (req, res) => {
   }
 });
 
+// 🔴 Get all Reviews of the Current User
+router.get('/current', requireAuth, async (req, res) => {
+  const userId = req.user.id;
+  const reviews = await Review.findAll({
+    where: {
+      userId,
+    },
+    include: [
+      {
+        model: Spot,
+        attributes: {
+          exclude: ['createdAt', 'updatedAt', 'description'],
+        },
+        include: [
+          {
+            model: SpotImage,
+          },
+        ],
+      },
+      {
+        model: User,
+        attributes: ['id', 'firstName', 'lastName'],
+      },
+
+      {
+        model: ReviewImage,
+        attributes: ['id', 'url'],
+      },
+    ],
+  });
+
+  let finalList = [];
+  console.log(finalList)
+  reviews.forEach((singleReview) => {
+    finalList.push(singleReview.toJSON());
+  });
+
+  finalList.forEach((review) => {
+    review.Spot.SpotImages.forEach((image) => {
+      if (!review.Spot.previewImage) {
+        review.Spot.previewImage = 'no image found';
+      }
+      if (image.preview === true) {
+        review.Spot.previewImage = image.url;
+      }
+    });
+    delete review.Spot.SpotImages;
+  });
+
+  return res.json(finalList);
+});
 // 😡 Edit Review
 router.put('/:reviewId', requireAuth, async (req, res) => {
   let { reviewId } = req.params;
@@ -167,7 +167,7 @@ router.put('/:reviewId', requireAuth, async (req, res) => {
     return res.json(err);
   }
 
-// validation for star entry 
+// validation for star entry
   if (!review || stars > 5 || stars < 1) {
     res.status(400);
     return res.json({
@@ -186,6 +186,43 @@ router.put('/:reviewId', requireAuth, async (req, res) => {
   });
 
   return res.json(reviewToUpdate);
+});
+
+// 😡 Delete Review
+router.delete('/:reviewId', requireAuth, async (req, res) => {
+
+   const reviewToDelete = await Review.findByPk(req.params.reviewId, {
+     where: {
+       userId: req.user.id,
+     },
+   });
+  if (!reviewToDelete) {
+    res.status(404);
+    return res.json({
+      message: "Review couldn't be found",
+      statusCode: 404,
+    });
+  }
+// find userId and compare
+  const reviewUserId = reviewToDelete.userId;
+  const sessionUserId = req.user.id;
+
+  if (sessionUserId === reviewUserId && reviewToDelete) {
+    await reviewToDelete.destroy();
+    res.status(200);
+    res.json({
+      statusCode: 200,
+      message: 'Successfully deleted',
+    });
+  }
+  if (sessionUserId !== reviewUserId) {
+    const err = new Error('Forbidden');
+    err.error = 'Forbidden';
+    err.status = 403;
+    res.status(403);
+    res.json(err);
+  }
+
 });
 
 module.exports = router;
