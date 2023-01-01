@@ -322,7 +322,7 @@ router.post('/:spotId/images', requireAuth, async (req, res, next) => {
   }
 });
 
-// 🔴 Delete spot 
+// 🔴 Delete spot
 router.delete('/:spotId', requireAuth, async (req, res) => {
   let { spotId } = req.params;
   spotId = parseInt(spotId);
@@ -357,6 +357,37 @@ router.delete('/:spotId', requireAuth, async (req, res) => {
     return res.json({
       message: 'Successfully deleted',
       statusCode: 200,
+    });
+  }
+});
+//😡 Get all Reviews by a Spot's id
+router.get('/:spotId/reviews', async (req, res) => {
+  let { spotId } = req.params;
+  spotId = parseInt(spotId);
+
+  const reviews = await Review.findAll({
+    where: {
+      spotId,
+    },
+    include: [
+      {
+        model: User,
+        attributes: ['id', 'firstName', 'lastName'],
+      },
+      {
+        model: ReviewImage,
+        attributes: ['id', 'url'],
+      },
+    ],
+  });
+  
+  if (reviews.length !== 0) {
+    return res.json({ Reviews: reviews });
+  } else if (reviews.length === 0) {
+    res.status(404);
+    return res.json({
+      message: "Spot couldn't be found",
+      statusCode: 404,
     });
   }
 });
