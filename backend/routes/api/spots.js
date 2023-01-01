@@ -306,7 +306,6 @@ router.post('/:spotId/images', requireAuth, async (req, res, next) => {
   }
 
   if (ownerId == req.user.id && spot) {
-    //only the owner can create image
     const newImage = await SpotImage.create({
       url,
       preview,
@@ -322,5 +321,40 @@ router.post('/:spotId/images', requireAuth, async (req, res, next) => {
     return res.json(finalAdd);
   }
 });
+router.delete('/:spotId', requireAuth, async (req, res) => {
+  let { spotId } = req.params;
+  spotId = parseInt(spotId);
+  const spotToDelete = await Spot.findOne({
+    where: {
+      id: spotId,
+    },
+  });
+  if (!spotToDelete) {
+    const err = new Error("Spot couldn't be found");
+    err.error = "Spot couldn't be found";
+    err.status = 404;
+    res.status(404);
+    res.json(err);
+  }
 
+  const currentSessionId = req.user.id;
+  const spotToDeleteId_ = spotToDelete.ownerId;
+
+  if (spotToDeleteId_ !== currentSessionId) {
+    // response if not that user
+    const err = new Error('Forbidden');
+    err.status = 403;
+    err.error = 'Forbidden';
+    res.status(403);
+    res.json(err);
+  } else if (spotToDeleteId_ === currentSessionId) {
+    // Delete if is the user
+    await spotToDelete.destroy();
+    res.status(200);
+    return res.json({
+      message: 'Successfully deleted',
+      statusCode: 200,
+    });
+  }
+});
 module.exports = router;
