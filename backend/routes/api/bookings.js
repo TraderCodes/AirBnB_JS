@@ -3,8 +3,6 @@ const router = express.Router();
 
 const {
   Spot,
-  Review,
-  ReviewImage,
   User,
   SpotImage,
   Booking,
