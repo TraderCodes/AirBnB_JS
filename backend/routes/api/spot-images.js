@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-
 const { requireAuth } = require('../../utils/auth');
 const { User, Spot, SpotImage } = require('../../db/models');
 
@@ -22,8 +21,8 @@ router.delete('/:imageId', requireAuth, async (req, res) => {
       statusCode: 404,
     });
   }
-  const sessionUserId = req.user.id;
   const userId = imageToDelete.spotId;
+  const sessionUserId = req.user.id;
   const theSpot = await Spot.findOne({
     where: {
       id: userId,
@@ -35,7 +34,6 @@ router.delete('/:imageId', requireAuth, async (req, res) => {
   if (sessionUserId !== userId) {
     const err = new Error('Forbidden');
     err.status = 403;
-
     err.error = 'Forbidden';
     res.status(403);
     return res.json(err);
