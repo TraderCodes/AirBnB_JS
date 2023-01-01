@@ -99,7 +99,7 @@ router.post('/:reviewId/images', requireAuth, async (req, res) => {
     res.json(err);
   }
 
-  // calculate ReivewImage amount
+  // Find Image amount
   const reviewImageNumber = await ReviewImage.findAll({
     where: {
       reviewId,
@@ -120,23 +120,72 @@ router.post('/:reviewId/images', requireAuth, async (req, res) => {
     reviewOwnerId === sessionUserId &&
     reviewImageNumber.length < 10
   ) {
-    const newReview = await ReviewImage.create({
+    const newReviewImage = await ReviewImage.create({
       url,
       reviewId,
     });
-    // show the result
+    const newReviewId = newReviewImage.id;
 
-    const newReviewId = newReview.id;
-
-    const result = await ReviewImage.findOne({
+    const imageReview = await ReviewImage.findOne({
       where: {
         id: newReviewId,
       },
       attributes: ['id', 'url'],
     });
 
-    return res.json(result);
+    return res.json(imageReview);
   }
+});
+
+// 😡 Edit Review
+router.put('/:reviewId', requireAuth, async (req, res) => {
+  let { reviewId } = req.params;
+  const { review, stars } = req.body;
+  reviewId = parseInt(reviewId);
+
+  const reviewToUpdate = await Review.findOne({
+    where: {
+      id: reviewId,
+    },
+  });
+
+  if (!reviewToUpdate) {
+    res.status(404);
+    return res.json({
+      message: "Review couldn't be found",
+      statusCode: 404,
+    });
+  }
+  // check if the person who ask for the request is the review user and do something
+  const userId = reviewToUpdate.userId;
+
+  if (userId !== req.user.id) {
+    const err = new Error('Forbidden');
+    err.error = 'Forbidden';
+    err.status = 403;
+    res.status(403);
+    return res.json(err);
+  }
+
+// validation for star entry 
+  if (!review || stars > 5 || stars < 1) {
+    res.status(400);
+    return res.json({
+      message: 'Validation error',
+      statusCode: 400,
+      errors: [
+        'Review text is required',
+        'Stars must be an integer from 1 to 5',
+      ],
+    });
+  }
+
+  await reviewToUpdate.update({
+    review,
+    stars,
+  });
+
+  return res.json(reviewToUpdate);
 });
 
 module.exports = router;
