@@ -334,44 +334,7 @@ router.post('/:spotId/images', requireAuth, async (req, res, next) => {
   }
 });
 
-// 🔴 Delete spot
-router.delete('/:spotId', requireAuth, async (req, res) => {
-  let { spotId } = req.params;
-  spotId = parseInt(spotId);
-  const spotToDelete = await Spot.findOne({
-    where: {
-      id: spotId,
-    },
-  });
-  if (!spotToDelete) {
-    const err = new Error("Spot couldn't be found");
-    err.error = "Spot couldn't be found";
-    err.status = 404;
-    res.status(404);
-    res.json(err);
-  }
-  // Find session(currentID) @ Spot that wants to be deleted ID
-  // And compare
-  const spotToDeleteId_ = spotToDelete.ownerId;
-  const currentSessionId = req.user.id;
 
-  if (spotToDeleteId_ !== currentSessionId) {
-    // response if not that user
-    const err = new Error('Forbidden');
-    err.status = 403;
-    err.error = 'Forbidden';
-    res.status(403);
-    res.json(err);
-  } else if (spotToDeleteId_ === currentSessionId) {
-    // Delete if is the user
-    await spotToDelete.destroy();
-    res.status(200);
-    return res.json({
-      message: 'Successfully deleted',
-      statusCode: 200,
-    });
-  }
-});
 //😡 Create a review for spot based on spot's Id
 
 router.post(
@@ -599,6 +562,44 @@ router.post('/:id/bookings', requireAuth, async (req, res) => {
   });
 
   return res.json(createBooking);
+});
+// 🔴 Delete spot
+router.delete('/:spotId', requireAuth, async (req, res) => {
+  let { spotId } = req.params;
+  spotId = parseInt(spotId);
+  const spotToDelete = await Spot.findOne({
+    where: {
+      id: spotId,
+    },
+  });
+  if (!spotToDelete) {
+    const err = new Error("Spot couldn't be found");
+    err.error = "Spot couldn't be found";
+    err.status = 404;
+    res.status(404);
+    res.json(err);
+  }
+  // Find session(currentID) @ Spot that wants to be deleted ID
+  // And compare
+  const spotToDeleteId_ = spotToDelete.ownerId;
+  const currentSessionId = req.user.id;
+
+  if (spotToDeleteId_ !== currentSessionId) {
+    // response if not that user
+    const err = new Error('Forbidden');
+    err.status = 403;
+    err.error = 'Forbidden';
+    res.status(403);
+    res.json(err);
+  } else if (spotToDeleteId_ === currentSessionId) {
+    // Delete if is the user
+    await spotToDelete.destroy();
+    res.status(200);
+    return res.json({
+      message: 'Successfully deleted',
+      statusCode: 200,
+    });
+  }
 });
 
 module.exports = router;

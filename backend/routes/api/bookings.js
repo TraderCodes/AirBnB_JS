@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
-
+const Sequelize = require('sequelize');
+const Op = Sequelize.Op;
 const {
   Spot,
-  User,
   SpotImage,
   Booking,
   sequelize,
@@ -51,54 +51,151 @@ router.get('/current', requireAuth, async (req, res) => {
     Bookings: allBookings,
   });
 });
-
-//🚗Delete Booking
-const convertDate = (date) => {
-  const [year, month, day] = date.split('-');
-  const monthIndex = month - 1;
-  const newDate = new Date(year, monthIndex, date);
-  return date;
-};
-router.delete('/:bookingId', requireAuth, async (req, res, next) => {
-  const { bookingId } = req.params;
-  const user = req.user;
-  const currentBooking = await Booking.findOne({
-    where: {
-      id: bookingId,
-    },
-  });
-  if (!currentBooking) {
+//🚓🚓 Edit Bookings
+router.put('/:id',requireAuth, async (req, res) => {
+  let { startDate, endDate } = req.body;
+  const err = [];
+  if (!startDate) err.push('Need a Start Date');
+  if (!endDate) err.push('Need a End Date');
+  if (err.length) {
+    res.status(400);
+    return res.json({
+      message: 'Validation Error',
+      statusCode: 400,
+      err,
+    });
+  }
+  // check date entry errors
+  startDate = new Date(startDate);
+  endDate = new Date(endDate);
+  // console.log(startDate)
+  if (endDate <= startDate)
+    err.push('endDate cannot come before startDate');
+  if (err.length) {
+    res.status(400);
+    return res.json({
+      message: 'Validation Error',
+      statusCode: 400,
+      err,
+    });
+  }
+  // check for bookings
+  const bookingId = req.params.id;
+  const bookingToEdit = await Booking.findByPk(bookingId);
+  if (!bookingToEdit) {
     res.status(404);
     return res.json({
       message: "Booking couldn't be found",
       statusCode: 404,
     });
   }
-  let spot = await booking.getSpot();
-  let booking = await Booking.findByPk(bookingId);
-
-  let err = {};
-  if (user.id !== booking.userId && user.id !== spot.ownerId) {
-    err.title = 'Authorization error';
-    err.status = 403;
-    err.message = "Booking doesn't belong to current user";
-    return next(err);
-  }
-
-  const startDate = convertDate(booking.startDate);
-
-  if (startDate <= new Date()) {
+  // Find is the editBook owner match the current Log in user
+  const bookOwnerId = bookingToEdit.dataValues.userId;
+  const userId = req.user.id;
+  if (bookOwnerId !== userId) {
     res.status(403);
     return res.json({
-      message: "Bookings that have started can't be deleted",
+      message: "Forbidden",
       statusCode: 403,
     });
   }
-  booking.destroy();
+
+  const today = new Date();
+  const endDayBooking = bookingToEdit.dataValues.endDate;
+  // Check if booking is in the past
+  if (endDayBooking < today) {
+    res.status(403);
+    return res.json({
+      message: "Past bookings can't be modified",
+      statusCode: 403,
+    });
+  }
+  // booking spotId
+  const spotId = bookingToEdit.dataValues.spotId;
+
+  // where user id is not current users id
+  const allSpotBookings = await Booking.findAll({
+    where: {
+      [Op.and]: [{ spotId: spotId }, { id: { [Op.not]: bookingId } }],
+    },
+  });
+  console.log(allSpotBookings)
+
+  for (booking of allSpotBookings) {
+    const bookingErr = [];
+  console.log(booking)
+    const oldStartDate = booking.dataValues.startDate;
+    const oldEndDate = booking.dataValues.endDate;
+
+    if (oldEndDate >= startDate && oldEndDate <= endDate)
+    bookingErr.push('End date conflicts with an existing booking');
+    if (oldStartDate >= startDate && oldStartDate <= endDate)
+      bookingErr.push('Start date conflicts with an existing booking');
+    if (bookingErr.length) {
+      res.status(403);
+      return res.json({
+        message: 'Sorry, this spot is already booked for the specified dates',
+        statusCode: 403,
+        err: bookingErr,
+      });
+    }
+  }
+
+  bookingToEdit.set({
+    startDate,
+    endDate,
+  });
+
+  await bookingToEdit.save();
+  return res.json(bookingToEdit);
+});
+
+
+
+//🔴 delete bookings
+router.delete('/:bookingId', requireAuth, async (req, res, next) => {
+  const booking = await Booking.findOne({
+    where: {
+      id: req.params.bookingId,
+    },
+  });
+  if (!booking) {
+    res.status(404);
+    return res.json({
+      message: 'Booking could not be found',
+      statusCode: 404,
+    });
+  }
+  const spot = await Spot.findOne({
+    where: {
+      id: booking.spotId,
+    },
+  });
+  const today = new Date();
+  const userId = req.user.id;
+  const spotOwnerId = spot.ownerId;
+  const bookingStartDate = new Date(booking.startDate);
+
+  // can't edit someones booking
+  if (userId !== booking.userId && userId !== spotOwnerId) {
+    res.status(403);
+    return res.json({
+      message: 'Forbidden',
+      statusCode: 403,
+    });
+  }
+  // If booking startdate is before current date , thats means is in the pass
+  else if (today.getTime() >= bookingStartDate.getTime()) {
+    res.status(403);
+    return res.json({
+      message: "Past bookings can't be modified",
+      statusCode: 403,
+    });
+  }
+  await booking.destroy();
   return res.json({
     message: 'Successfully deleted',
     statusCode: 200,
   });
 });
-
 module.exports = router;
