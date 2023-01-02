@@ -103,7 +103,7 @@ router.get('/', validateQuerySpot, async (req, res, next) => {
   if (size > 20) size = 20;
 
   let pagination = {};
-  if (parseInt(page) <= 1 && parseInt(size) <=1) {
+  if (parseInt(page) >= 1 && parseInt(size) >=1) {
     pagination.limit = size;
     pagination.offset = size * (page - 1);
   }
@@ -174,7 +174,6 @@ router.get('/', validateQuerySpot, async (req, res, next) => {
   }
 
   let spots = await Spot.findAll(query);
-
   let arr = [];
 
   spots.forEach((spot) => {
@@ -185,9 +184,8 @@ router.get('/', validateQuerySpot, async (req, res, next) => {
     spot.Reviews.forEach((review) => (sum += review.stars));
     let avg = sum / count;
     if (!avg) {
-      avg = 'No current ratings';
+      avg = 'No ratings';
     }
-
     eachSpot.avgRating = avg;
 
     if (eachSpot.SpotImages.length > 0) {
@@ -199,7 +197,7 @@ router.get('/', validateQuerySpot, async (req, res, next) => {
     }
 
     if (!eachSpot.previewImage) {
-      eachSpot.previewImage = 'No preview image available';
+      eachSpot.previewImage = 'No preview image';
     }
     delete eachSpot.Reviews;
     delete eachSpot.SpotImages;
