@@ -135,7 +135,7 @@ router.get('/current', requireAuth, async (req, res) => {
     delete review.Spot.SpotImages;
   });
 
-  return res.json(finalList);
+  return res.json({Reviews:finalList});
 });
 // 😡 Edit Review
 router.put('/:reviewId', requireAuth, async (req, res) => {
