@@ -9,7 +9,7 @@ const router = express.Router();
 const validateLogin = [
   check('credential')
     .exists({ checkFalsy: true })
-    .notEmpty()
+    // .notEmpty()
     .withMessage('Please provide a valid email or username.'),
   check('password')
     .exists({ checkFalsy: true })
@@ -58,7 +58,7 @@ router.post('/', validateLogin, async (req, res, next) => {
       lastName: user.lastName,
       email: user.email,
       username: user.username,
-      token: token,
+      // token: token,
     },
   });
 });
