@@ -9,11 +9,7 @@ const {
   sequelize,
   Booking,
 } = require('../../db/models');
-const {
-  setTokenCookie,
-  requireAuth,
-  restoreUser,
-} = require('../../utils/auth');
+const { requireAuth } = require('../../utils/auth');
 const { Op } = require('sequelize');
 const spot = require('../../db/models/spot');
 const { check } = require('express-validator');
@@ -103,12 +99,12 @@ router.get('/', validateQuerySpot, async (req, res, next) => {
   if (size > 20) size = 20;
 
   let pagination = {};
-  if (parseInt(page) >= 1 && parseInt(size) >=1) {
+  if (parseInt(page) >= 1 && parseInt(size) >= 1) {
     pagination.limit = size;
     pagination.offset = size * (page - 1);
   }
 
-  const query = {
+  const querySpot = {
     where: {},
     include: [
       {
@@ -123,20 +119,13 @@ router.get('/', validateQuerySpot, async (req, res, next) => {
     ...pagination,
   };
 
-  if (maxLat && !minLat) {
-    query.where.lat = {
-      [Op.lte]: maxLat,
+  if (!maxLng && minLng) {
+    querySpot.where.lng = {
+      [Op.gte]: minLng,
     };
   }
-
-  if (!maxLat && minLat) {
-    query.where.lat = {
-      [Op.gte]: minLat,
-    };
-  }
-
   if (maxLat && minLat) {
-    query.where.lat = {
+    querySpot.where.lat = {
       [Op.and]: {
         [Op.lte]: maxLat,
         [Op.gte]: minLat,
@@ -144,28 +133,25 @@ router.get('/', validateQuerySpot, async (req, res, next) => {
     };
   }
 
-  if (minLng && !maxLng) {
-    where.lng = { [Op.gte]: +minLng };
-  } else if (!minLng && maxLng) {
-    where.lng = { [Op.lte]: +maxLng };
-  } else if (minLng && maxLng) {
-    where.lng = { [Op.between]: [+minLat, +maxLng] };
+  if (maxLng && !minLng) {
+    querySpot.where.lng = {
+      [Op.lte]: maxLng,
+    };
   }
-
   if (maxPrice && !minPrice) {
-    query.where.price = {
+    querySpot.where.price = {
       [Op.lte]: maxPrice,
     };
   }
 
   if (!maxPrice && minPrice) {
-    query.where.price = {
+    querySpot.where.price = {
       [Op.gte]: minPrice,
     };
   }
 
   if (maxPrice && minPrice) {
-    query.where.price = {
+    querySpot.where.price = {
       [Op.and]: {
         [Op.lte]: maxPrice,
         [Op.gte]: minPrice,
@@ -173,7 +159,27 @@ router.get('/', validateQuerySpot, async (req, res, next) => {
     };
   }
 
-  let spots = await Spot.findAll(query);
+  if (maxLng && minLng) {
+    querySpot.where.lng = {
+      [Op.and]: {
+        [Op.lte]: maxLng,
+        [Op.gte]: minLng,
+      },
+    };
+  }
+  if (maxLat && !minLat) {
+    querySpot.where.lat = {
+      [Op.lte]: maxLat,
+    };
+  }
+
+  if (!maxLat && minLat) {
+    querySpot.where.lat = {
+      [Op.gte]: minLat,
+    };
+  }
+
+  let spots = await Spot.findAll(querySpot);
   let arr = [];
 
   spots.forEach((spot) => {

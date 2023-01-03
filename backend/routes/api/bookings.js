@@ -32,14 +32,12 @@ router.get('/current', requireAuth, async (req, res) => {
     console.log(booking);
     allBookings.push(booking.toJSON());
   });
-
   allBookings.forEach((booking) => {
     booking.Spot.SpotImages.forEach((image) => {
       if (image.preview === true) {
         booking.Spot.previewImage = image.url;
       }
     });
-
     // check if preview image exist
     if (!booking.Spot.previewImage) {
       booking.Spot.previewImage = 'No preview image';
