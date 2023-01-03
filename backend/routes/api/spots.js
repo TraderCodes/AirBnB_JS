@@ -52,11 +52,13 @@ const validateSpot = [
 const validateQuerySpot = [
   check('page')
     .isInt({ min: 1, max: 10 })
+    .optional({ nullable: true })
     .withMessage(
       'Page must be greater than or equal to 1 and less or equal to 10'
     ),
   check('size')
     .isInt({ min: 1, max: 20 })
+    .optional({ nullable: true })
     .withMessage(
       'Size must be greater than or equal to 1 and less or equal to 20'
     ),
@@ -460,7 +462,7 @@ router.post(
         err.error = 'User already has a review for this spot';
         err.status = 403;
         res.status(403);
-        res.json(err);
+      return  res.json(err);
       }
     }
 
