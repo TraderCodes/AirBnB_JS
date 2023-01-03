@@ -460,7 +460,7 @@ router.post(
         err.error = 'User already has a review for this spot';
         err.status = 403;
         res.status(403);
-        res.json(err);
+      return  res.json(err);
       }
     }
 
