@@ -1,0 +1,15 @@
+
+/* *{
+margin: 10px;
+justify-content: center;
+flex-wrap: wrap;
+
+} */
+
+.formBox label {
+  margin: 30px;
+justify-content: center;
+/* flex-wrap: wrap; */
+display:flex;
+/* margin: 100% 0 100%; */
+}
