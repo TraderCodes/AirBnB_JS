@@ -1,7 +1,11 @@
 import React from 'react'
 
-export default function Spot() {
+export default function Spot({spot}) {
   return (
-    <div>Spot</div>
+    <div>
+
+
+      {spot.id}
+    </div>
   )
 }
