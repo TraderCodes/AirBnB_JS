@@ -16,22 +16,43 @@ module.exports = {
           firstName: 'Demo',
           lastName: 'User',
           email: 'demo@user.io',
-          username: 'Demo-lition',
+          username: 'Demo_User',
           hashedPassword: bcrypt.hashSync('password'),
         },
         {
-          firstName: 'Demo1',
-          lastName: 'User1',
+          firstName: 'Josh',
+          lastName: 'Byrne',
           email: 'user1@user.io',
-          username: 'FakeUser1',
-          hashedPassword: bcrypt.hashSync('password2'),
+          username: 'Josh01',
+          hashedPassword: bcrypt.hashSync('password'),
         },
         {
-          firstName: 'Demo2',
-          lastName: 'User2',
+          firstName: 'Wilson',
+          lastName: 'Hubbard',
           email: 'user2@user.io',
-          username: 'FakeUser2',
-          hashedPassword: bcrypt.hashSync('password3'),
+          username: 'Wilson',
+          hashedPassword: bcrypt.hashSync('password'),
+        },
+        {
+          firstName: 'Bianca',
+          lastName: 'Martin',
+          email: 'user3@user.io',
+          username: 'Bianca',
+          hashedPassword: bcrypt.hashSync('password'),
+        },
+        {
+          firstName: 'Skyla',
+          lastName: 'Reyes',
+          email: 'user4@user.io',
+          username: 'Skyla',
+          hashedPassword: bcrypt.hashSync('password'),
+        },
+        {
+          firstName: 'Elodie',
+          lastName: 'Dunlap',
+          email: 'user5@user.io',
+          username: 'Elodie',
+          hashedPassword: bcrypt.hashSync('password'),
         },
       ],
       {}
@@ -44,7 +65,16 @@ module.exports = {
     return queryInterface.bulkDelete(
       options,
       {
-        username: { [Op.in]: ['Demo-lition', 'FakeUser1', 'FakeUser2'] },
+        username: {
+          [Op.in]: [
+            'Demo_User',
+            'Elodie',
+            'Skyla',
+            'Bianca',
+            'Wilson',
+            'Josh01',
+          ],
+        },
       },
       {}
     );
