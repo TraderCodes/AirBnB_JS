@@ -1,11 +1,45 @@
-import React from 'react'
-
-export default function Spot({spot}) {
+import React from 'react';
+import { Link } from 'react-router-dom';
+import noImage from '../../images/noimage.jpg';
+export default function Spot({ spot }) {
   return (
-    <div>
+    <div className="outer-container">
+      <Link
+        style={{ textDecoration: 'none', color: 'black' }}
+        to={`/spots/${spot.id}`}
+      >
+        <div>
+          {spot.previewImage == '' ? (
+            <div>
+              <img src={spot.previewImage} />
+            </div>
+          ) : (
+            <div>
+              <img style={{ height: '50px' }} src={noImage} alt="noimage" />
+            </div>
+          )}
+        </div>
 
+        <div>
+          <div>
+            <div>
+              {spot.city}, {spot.state}
+            </div>
 
-      {spot.id}
+            <div>
+              {spot.avgRating ? (
+                <span>★ {spot.avgRating}</span>
+              ) : (
+                <span>★ New</span>
+              )}
+            </div>
+          </div>
+          <div>{spot.country}</div>
+          <div>
+            ${spot.price} <span>night</span>
+          </div>
+        </div>
+      </Link>
     </div>
-  )
+  );
 }
