@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllSpotsTK } from '../../store/spots';
 import Spot from './Spot';
+import './Spot.css';
 function LoadAllSpots() {
   const dispatch = useDispatch();
   // use useSelect to get the state
@@ -22,7 +23,7 @@ function LoadAllSpots() {
   return (
     <>
       <div className="wrapper-center">
-        <div className="allspots-container">
+        <div className="allspot-container">
           {spotsArr.map((spot) => (
             <Spot key={spot.id} spot={spot} />
           ))}

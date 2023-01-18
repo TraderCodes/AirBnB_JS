@@ -8,10 +8,10 @@ export default function Spot({ spot }) {
         style={{ textDecoration: 'none', color: 'black' }}
         to={`/spots/${spot.id}`}
       >
-        <div>
+        <div className="allspot-image-container">
           {spot.previewImage ? (
             <div>
-              <img src={spot.previewImage} style={{ height: '200px' }} />
+              <img src={spot.previewImage} />
             </div>
           ) : (
             <div>
@@ -36,7 +36,7 @@ export default function Spot({ spot }) {
           </div>
           <div>{spot.country}</div>
           <div>
-            ${spot.price} <span>night</span>
+            ${spot.price} <span>Night</span>
           </div>
         </div>
       </Link>

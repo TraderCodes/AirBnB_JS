@@ -1,3 +1,49 @@
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin:0
+}
 .hidden {
   display: none;
+}
+.wrapperr{
+  position: absolute;
+  z-index: 5000;
+  padding-top: 11px;
+}
+.wrapper {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 0;
+  padding-top: 10px;
+  padding-left:50px ;
+  padding-right:100px ;
+  align-items: space-between;
+  /* margin:0; */
+}
+.profileButton {
+cursor: pointer;
+  width: 70px;
+  height: 40px;
+  border-radius: 20px;
+  border: 4px solid rgba(27, 49, 109, 0.2);
+  justify-self: left;
+  background-color: white;
+  transition: background-color 3s;
+}
+.profileButton:hover {
+  background-color: rgba(202, 112, 112, 0.604);
+  cursor: pointer;
+}
+.logowrapper{
+  display: flex;
+  align-items: center;
+}
+.logowrapper span{
+  margin-top: 30px;
+
+}
+.profile-container {
+  margin: 30px;
+
 }
