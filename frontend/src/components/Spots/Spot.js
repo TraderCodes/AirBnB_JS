@@ -9,9 +9,9 @@ export default function Spot({ spot }) {
         to={`/spots/${spot.id}`}
       >
         <div>
-          {spot.previewImage == '' ? (
+          {spot.previewImage ? (
             <div>
-              <img src={spot.previewImage} />
+              <img src={spot.previewImage} style={{ height: '200px' }} />
             </div>
           ) : (
             <div>
