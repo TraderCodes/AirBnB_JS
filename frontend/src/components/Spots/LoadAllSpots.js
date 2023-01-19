@@ -11,7 +11,7 @@ function LoadAllSpots() {
     return state.spots.allSpots;
   });
   const spotsArr = Object.values(spotsObj);
-  console.log(spotsArr);
+  // console.log(spotsArr);
 
   useEffect(() => {
     dispatch(getAllSpotsTK());

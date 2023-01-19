@@ -18,10 +18,12 @@ function App() {
       <Navigation isLoaded={isLoaded} />
       {isLoaded && (
         <Switch>
-
+       
             <LoadAllSpots exact path="/" />
 
-
+          <Route path="/spots/:spotId">
+            <LoadSingleSpot />
+          </Route>
         </Switch>
       )}
     </>
