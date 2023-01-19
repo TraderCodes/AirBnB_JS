@@ -5,7 +5,7 @@ import { useModal } from '../../context/Modal';
 import { createSingleSpotTK } from '../../store/spots';
 import './CreateSpotModal.css';
 
-const CreateSpotModal = ({ setModal }) => {
+const CreateSpotModal = () => {
   const { closeModal } = useModal();
   const dispatch = useDispatch();
   const history = useHistory();

@@ -22,7 +22,7 @@ function Navigation({ isLoaded }) {
       {sessionUser && (
         <div>
           <OpenModalButton
-            buttonText="Create user"
+            buttonText="Create Spot !"
             modalComponent={<CreateSpotModal />}
           />
         </div>

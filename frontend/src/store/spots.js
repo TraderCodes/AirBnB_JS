@@ -5,6 +5,8 @@ const LOAD_ALLSPOTS = 'spots/LOAD_ALLSPOTS';
 const LOAD_SINGLESPOT = 'spots/LOAD_SINGLESPOT';
 const CREATE_SINGLESPOT = 'spots/CREATE_SINGLESPOT';
 const ADDIMAGE = 'spots/ADDIMAGE';
+const UPDATE_SINGLESPOT = 'spots/UPDATE_SINGLESPOT';
+const DELETE_SINGLESPOT = 'spots/UPDATE_SINGLESPOT';
 //ACTION CREATOR
 
 const LoadAllSpots = (spots) => {
@@ -28,7 +30,20 @@ const CreateSpot = (spot) => {
 const Createimg = (img) => {
   return {
     type: ADDIMAGE,
-  img,
+    img,
+  };
+};
+const UpdateSpot = (spot) => {
+  return {
+    type: UPDATE_SINGLESPOT,
+    spot,
+  };
+};
+
+const Deletespot = (spotId) => {
+  return {
+    type: DELETE_SINGLESPOT,
+    spotId,
   };
 };
 
@@ -83,6 +98,12 @@ export const createSingleSpotTK = (data, imgData) => async (dispatch) => {
     throw error;
   }
 };
+export const deleteSingleSpot = (spotId) => async (dispatch) => {
+  const response = await csrfFetch(`/api/spots/${spotId}`, {
+    method: 'delete',
+  });
+  if (response.ok) dispatch(Deletespot(spotId));
+};
 const initialState = {
   allSpots: {},
   singleSpot: {},
@@ -100,6 +121,11 @@ const spotsReducer = (state = initialState, action) => {
       newState.singleSpot = {};
       return newState;
 
+    case ADDIMAGE:
+      return {
+        ...state,
+        singleSpot: { ...state.singleSpot, SpotImages: [action.img] },
+      };
     case LOAD_SINGLESPOT:
       newState = { ...state };
       newState.singleSpot = action.spot;
@@ -112,11 +138,21 @@ const spotsReducer = (state = initialState, action) => {
           [action.spot.id]: action.spot,
         },
       };
-    case ADDIMAGE:
-      return {
+    case UPDATE_SINGLESPOT:
+      newState = { ...state };
+      newState.singleSpot[action.payload.id] = { ...action.payload };
+      newState.singleSpot = action.payload;
+      return newState;
+
+    case DELETE_SINGLESPOT:
+      newState = {
         ...state,
-        singleSpot: { ...state.singleSpot, SpotImages: [action.img] },
+        allSpots: { ...state.allSpots },
+        singleSpot: { ...state.singleSpot },
       };
+      delete newState.allSpots[action.payload];
+      delete newState.singleSpot;
+      return newState;
     default:
       return state;
   }
