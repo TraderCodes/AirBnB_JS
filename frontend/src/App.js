@@ -6,6 +6,8 @@ import Navigation from './components/Navigation';
 import LoadAllSpots from './components/Spots/LoadAllSpots';
 import LoadSingleSpot from './components/Spots/LoadSingleSpot';
 import Footer from './components/Footer';
+// import LoadUserSpots from './components/UserSpots/LoadUserSpots';
+import UserSpots from './components/UserSpots';
 
 function App() {
   const dispatch = useDispatch();
@@ -22,7 +24,9 @@ function App() {
           <Route exact path="/">
             <LoadAllSpots exact path="/" />
           </Route>
-
+          <Route exact path="/my-spots">
+            <UserSpots />
+          </Route>
           <Route path="/spots/:spotId">
             <LoadSingleSpot />
           </Route>

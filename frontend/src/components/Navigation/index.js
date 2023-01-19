@@ -19,13 +19,25 @@ function Navigation({ isLoaded }) {
           </div>
         </NavLink>
       </div>
+
       {sessionUser && (
+        <div>
+
         <div>
           <OpenModalButton
             buttonText="Create Spot !"
             modalComponent={<CreateSpotModal />}
           />
         </div>
+          <div>
+        <NavLink exact to="/my-spots">
+          <div className="logowrapper">
+            <img className="logo"  style={{ height: '80px' }} />
+            <span style={{ textDecoration: 'none' }}>MY SPOTS</span>
+          </div>
+        </NavLink>
+      </div>
+      </div>
       )}
       {isLoaded && (
         <div className="profile-container">

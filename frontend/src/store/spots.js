@@ -36,14 +36,14 @@ const Createimg = (img) => {
 const UpdateSpot = (spot) => {
   return {
     type: UPDATE_SINGLESPOT,
-    spot,
+    payload: spot,
   };
 };
 
 const Deletespot = (spotId) => {
   return {
     type: DELETE_SINGLESPOT,
-    spotId,
+    payload: spotId,
   };
 };
 
@@ -100,7 +100,7 @@ export const createSingleSpotTK = (data, imgData) => async (dispatch) => {
 };
 export const deleteSingleSpot = (spotId) => async (dispatch) => {
   const response = await csrfFetch(`/api/spots/${spotId}`, {
-    method: 'delete',
+    method: 'DELETE',
   });
   if (response.ok) dispatch(Deletespot(spotId));
 };
@@ -142,6 +142,7 @@ const spotsReducer = (state = initialState, action) => {
       newState = { ...state };
       newState.singleSpot[action.payload.id] = { ...action.payload };
       newState.singleSpot = action.payload;
+ 
       return newState;
 
     case DELETE_SINGLESPOT:
@@ -150,8 +151,9 @@ const spotsReducer = (state = initialState, action) => {
         allSpots: { ...state.allSpots },
         singleSpot: { ...state.singleSpot },
       };
-      delete newState.allSpots[action.payload];
       delete newState.singleSpot;
+      delete newState.allSpots[action.payload];
+
       return newState;
     default:
       return state;
