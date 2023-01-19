@@ -1,0 +1,23 @@
+.footer-wrapper {
+  width: 100%;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  padding: 1.5vh 0vw;
+  font-size: 15px;
+  display: flex;
+  background-color: rgb(237, 226, 226);
+  border-top: 1px solid rgba(5, 19, 57, 0.2);
+  color: rgb(94, 106, 133);
+  opacity: 0.9;
+}
+.footer-container {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding-left: 6vw;
+  padding-right: 6vw;
+}
+/* *{
+  background-image: url();
+} */
