@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-
-import { createOneSpot } from '../../store/spots';
+import { useModal } from '../../context/Modal';
+import { createSingleSpotTK } from '../../store/spots';
 import './CreateSpotModal.css';
 
-const CreateSpotForm = ({ setModal }) => {
+const CreateSpotModal = ({ setModal }) => {
+  const { closeModal } = useModal();
   const dispatch = useDispatch();
   const history = useHistory();
-
   const [url, setUrl] = useState('');
   const [lat, setLat] = useState('');
   const [lng, setLng] = useState('');
@@ -22,11 +22,35 @@ const CreateSpotForm = ({ setModal }) => {
   const [preview, setPreview] = useState(true);
   const [description, setDescription] = useState('');
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const data = {
+      address,
+      state,
+      city,
+      lat,
+      country,
+      lng,
+      name,
+      description,
+      price,
+      url,
+    };
+    const imgData = { url, preview };
 
+    dispatch(createSingleSpotTK(data, imgData))
+      .then((newSpot) => history.push(`/spots/${newSpot.id}`))
+      .then(closeModal)
+      .catch(async (res) => {
+        if (res === undefined) return null;
+        const message = await res.json();
+        if (message && message.errors) setErrors(message.errors);
+      });
+  };
 
   return (
     <div>
-      <form >
+      <form onSubmit={handleSubmit}>
         <div>Please Fill Below!</div>
         <div>
           <div>Create your spot</div>
@@ -58,7 +82,7 @@ const CreateSpotForm = ({ setModal }) => {
             </label>
           </div>
 
-          <div c>
+          <div>
             <label>
               State
               <input
@@ -143,8 +167,8 @@ const CreateSpotForm = ({ setModal }) => {
             </label>
           </div>
 
-          <div className="inputContainer" id="middle-label">
-            <label className="create-spot-label">
+          <div >
+            <label >
               Img url
               <input
                 type="text"
@@ -177,4 +201,4 @@ const CreateSpotForm = ({ setModal }) => {
   );
 };
 
-export default CreateSpotForm;
+export default CreateSpotModal;
