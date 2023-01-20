@@ -18,24 +18,21 @@ export default function LoadSingleSpot() {
   // if no spot return null
   if (!Object.values(spot).length) return null;
 
-  let displayImages = [...spot.SpotImages];
-  let previewImages = displayImages.find((img) => {
-    return img.preview == true;
-  });
-  if (!previewImages) {
-    previewImages = displayImages[0];
-    displayImages.splice(0, 1);
-  } else {
-    displayImages.splice(displayImages.indexOf(previewImages), 1);
-  }
-  // console.log(previewImages);
-  // console.log(displayImages);
-  let restImage = displayImages.length;
-  if (restImage < 4) {
-    for (let i = 3; i >= restImage; i--) {
-      displayImages[i] = { url: noImage };
+  const spotImgArr = spot?.SpotImages;
+  let previewImages;
+  let displayImages = [];
+  if (spotImgArr) {
+    for (let img of spotImgArr) {
+      if (img.preview === true) {
+        previewImages = img.url;
+      } else {
+        displayImages.push(img.url);
+      }
     }
   }
+
+  if (!spot?.Owner) return null;
+  if (!Object.keys(spot).length) return null;
   return (
     <div className="singlespot-container">
       <div>
@@ -56,28 +53,20 @@ export default function LoadSingleSpot() {
           </span>
         </div>
       </div>
-      <div className="singlespot-img-container">
-        <div>
-          {previewImages && (
-            <img
-              className="singlespot-preivewimg"
-              src={previewImages.url}
-              alt={spot.name}
-            />
-          )}
-        </div>
-        <div className="singlespot-img2-container">
-          {displayImages.length ? (
-            displayImages.map((image) => (
+
+      <div id="spot-img-container">
+        <img id="preview-img" alt={spot.name} src={previewImages} />
+        <div className="other-img-container">
+          {displayImages.length > 0 &&
+            displayImages.map((url) => (
               <img
-                className="singlespot-restimg"
-                src={image.url}
-                key={image.id}
+                id={`spot-image-${url.id}`}
+                className="other-image"
+                alt={spot.name}
+                src={url}
+                key={url}
               />
-            ))
-          ) : (
-            <div>no images</div>
-          )}
+            ))}
         </div>
       </div>
     </div>

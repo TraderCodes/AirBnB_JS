@@ -18,7 +18,7 @@ const LoadAllSpots = (spots) => {
 const LoadSingleSpot = (spot) => {
   return {
     type: LOAD_SINGLESPOT,
-    spot,
+    payload:spot,
   };
 };
 const CreateSpot = (spot) => {
@@ -98,6 +98,23 @@ export const createSingleSpotTK = (data, imgData) => async (dispatch) => {
     throw error;
   }
 };
+export const updateSingleSpot = (spotInfo, spotId) => async (dispatch) => {
+  const response = await csrfFetch(`/api/spots/${spotId}`, {
+    method: 'put',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(spotInfo),
+  });
+
+  if (response.ok) {
+    const spot = await response.json();
+    // console.log(spot)
+    dispatch(UpdateSpot(spot));
+    return spot;
+  }
+
+};
 export const deleteSingleSpot = (spotId) => async (dispatch) => {
   const response = await csrfFetch(`/api/spots/${spotId}`, {
     method: 'DELETE',
@@ -127,22 +144,21 @@ const spotsReducer = (state = initialState, action) => {
         singleSpot: { ...state.singleSpot, SpotImages: [action.img] },
       };
     case LOAD_SINGLESPOT:
-      newState = { ...state };
-      newState.singleSpot = action.spot;
+        newState = { ...state, singleSpot: { ...state.singleSpot } };
+      newState.singleSpot = action.payload
       return newState;
+
     case CREATE_SINGLESPOT:
-      return {
-        singleSpot: null,
-        allSpots: {
-          ...state.allSpots,
-          [action.spot.id]: action.spot,
-        },
-      };
+     newState = {...state}
+
+      newState.allSpots = {...state.allSpots, [action.spot.id]: action.spot}
+
+      return newState
     case UPDATE_SINGLESPOT:
       newState = { ...state };
       newState.singleSpot[action.payload.id] = { ...action.payload };
       newState.singleSpot = action.payload;
- 
+
       return newState;
 
     case DELETE_SINGLESPOT:

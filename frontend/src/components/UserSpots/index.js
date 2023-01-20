@@ -2,9 +2,16 @@ import { useEffect } from 'react';
 import { NavLink, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllSpotsTK, deleteSingleSpot } from '../../store/spots';
+import UpdateSpotForm from '../UpdateSpotModal';
+import OpenModalButton from '../OpenModalButton';
 
 const UserSpots = () => {
   const dispatch = useDispatch();
+    const spotsObj = useSelector((state) => {
+      return state.spots.allSpots;
+    }); 
+
+    const spotsArry = Object.values(spotsObj);
   const history = useHistory();
   const spots = useSelector((state) => state.spots.allSpots);
   const userId = useSelector((state) => state.session.user.id);
@@ -12,14 +19,16 @@ const UserSpots = () => {
     (spot) => spot.ownerId === userId
   );
 
-  useEffect(() => {
-    dispatch(getAllSpotsTK());
-  }, [dispatch]);
-
   const deleteSpotClickEvent = async (spotId) => {
     await dispatch(deleteSingleSpot(spotId));
+    dispatch(getAllSpotsTK());
     history.push('/my-spots');
   };
+
+    useEffect(() => {
+      dispatch(getAllSpotsTK());
+
+    }, [dispatch]);
 
   if (!spots) return null;
 
@@ -39,7 +48,11 @@ const UserSpots = () => {
                   to={`/spots/${spot.id}`}
                 >
                   <div>
-                    <img src={spot.previewImage} alt={spot.id} style={{height:'50px'}} />
+                    <img
+                      src={spot.previewImage}
+                      alt={spot.id}
+                      style={{ height: '50px' }}
+                    />
                   </div>
 
                   <div>
@@ -70,9 +83,15 @@ const UserSpots = () => {
                 </NavLink>
 
                 <div>
+                  <div>
+                    <OpenModalButton
+                      buttonText="EDIT!"
+                      modalComponent={<UpdateSpotForm spotId ={spot.id}/>}
+                    />
+                  </div>
                   <button
-                    className="user-button"
-                    onClick={() => deleteSpotClickEvent(spot.id)}
+
+                    onClick={ ()=>deleteSpotClickEvent(spot.id)}
                   >
                     Delete
                   </button>

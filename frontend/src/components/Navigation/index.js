@@ -6,6 +6,7 @@ import './Navigation.css';
 import logo from '../../images/Fireball.gif';
 import CreateSpotModal from '../CreateSpotModal';
 import OpenModalButton from '../OpenModalButton';
+import DemoUser from '../DemoUser';
 function Navigation({ isLoaded }) {
   const sessionUser = useSelector((state) => state.session.user);
 
@@ -20,6 +21,9 @@ function Navigation({ isLoaded }) {
         </NavLink>
       </div>
 
+        <div>
+          <DemoUser />
+        </div>
       {sessionUser && (
         <div>
 
