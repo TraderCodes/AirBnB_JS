@@ -4,8 +4,11 @@ import * as sessionActions from '../../store/session';
 import OpenModalButton from '../OpenModalButton';
 import LoginFormModal from '../LoginFormModal';
 import SignupFormModal from '../SignupFormModal';
-
+import { NavLink, useHistory } from 'react-router-dom';
+import UserReviews from '../Reviews/UserReviews';
+import DemoUser from '../DemoUser';
 function ProfileButton({ user }) {
+  const history = useHistory()
   const dispatch = useDispatch();
   const [showMenu, setShowMenu] = useState(false);
   const ulRef = useRef();
@@ -32,13 +35,14 @@ function ProfileButton({ user }) {
   const logout = (e) => {
     e.preventDefault();
     dispatch(sessionActions.logout());
+    history.push('/')
   };
 
   const ulClassName = 'profile-dropdown' + (showMenu ? '' : ' hidden');
 
   return (
-    <div className='wrapperr'>
-      <button className='profileButton' onClick={openMenu}>
+    <div className="wrapperr">
+      <button className="profileButton" onClick={openMenu}>
         <i className="fas fa-user-circle" />
       </button>
       <ul className={ulClassName} ref={ulRef}>
@@ -49,6 +53,17 @@ function ProfileButton({ user }) {
               {user.firstName} {user.lastName}
             </li>
             <li>{user.email}</li>
+            <li>
+              <NavLink exact to="/myreviews">
+                <button>
+                  My Reviews
+                  {/* <UserReviews /> */}
+                </button>
+              </NavLink>
+            </li>
+            <NavLink exact to="/my-spots">
+              <button>My Spots</button>
+            </NavLink>
             <li>
               <button onClick={logout}>Log Out</button>
             </li>
@@ -67,6 +82,9 @@ function ProfileButton({ user }) {
                 modalComponent={<SignupFormModal />}
               />
             </li>
+            <div>
+              <DemoUser />
+            </div>
           </>
         )}
       </ul>
