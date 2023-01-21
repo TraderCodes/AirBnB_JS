@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import * as sessionActions from '../../store/session';
+import { useModal } from '../../context/Modal';
 // import './SignupForm.css';
 function SignupFormPage() {
+  const { closeModal } = useModal();
   const dispatch = useDispatch();
   const sessionUser = useSelector((state) => state.session.user);
   const [email, setEmail] = useState('');
@@ -28,10 +30,12 @@ function SignupFormPage() {
           lastName,
           password,
         })
-      ).catch(async (res) => {
-        const data = await res.json();
-        if (data && data.errors) setErrors(data.errors);
-      });
+      )
+        .then(closeModal)
+        .catch(async (res) => {
+          const data = await res.json();
+          if (data && data.errors) setErrors(data.errors);
+        });
     }
     return setErrors([
       'Confirm Password field must be the same as the Password field',
@@ -39,7 +43,7 @@ function SignupFormPage() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className='formBox'>
+    <form onSubmit={handleSubmit} className="formBox">
       <ul>
         {errors.map((error, idx) => (
           <li key={idx}>{error}</li>
