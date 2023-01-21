@@ -46,7 +46,7 @@ const SpotReviews = ({ spotId }) => {
           <div>
             {review.ReviewImages &&
               review.ReviewImages.map((image) => {
-                return <img src={image.url} />;
+                return <img style={{height :'50px'}} src={image.url} />;
               })}
           </div>
         </div>

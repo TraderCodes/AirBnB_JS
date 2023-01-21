@@ -6,6 +6,8 @@ import { useParams } from 'react-router-dom';
 import { useHistory } from 'react-router-dom';
 import './Spot.css';
 import SpotReviews from '../Reviews/SpotReviews';
+import OpenModalButton from '../OpenModalButton';
+import CreateReviewsModal from '../CreateReviewsModal';
 
 export default function LoadSingleSpot() {
   const history = useHistory();
@@ -14,15 +16,12 @@ export default function LoadSingleSpot() {
   const spot = useSelector((state) => {
     return state.spots.singleSpot;
   });
-  const reviews = useSelector((state) => {
-    return state.reviews.spot;
-  });
+  const currentUser = useSelector((state) => state.session.user);
 
   useEffect(() => {
     dispatch(getSingleSpotTK(+spotId));
     history.push(`/spots/${spotId}`);
   }, [dispatch]);
-
 
   if (!Object.values(spot).length) return null;
 
@@ -77,7 +76,15 @@ export default function LoadSingleSpot() {
             ))}
         </div>
       </div>
-
+      {currentUser && (
+        <div>
+          <OpenModalButton
+            buttonText="Create Spot !"
+            modalComponent={<CreateReviewsModal spotId={spotId} />}
+          />
+        </div>
+      )}
+  
       <div className="one-spot-reviews-container">
         <SpotReviews spotId={spotId} />
       </div>

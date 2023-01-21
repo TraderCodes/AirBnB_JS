@@ -8,6 +8,8 @@ import LoadSingleSpot from './components/Spots/LoadSingleSpot';
 import Footer from './components/Footer';
 // import LoadUserSpots from './components/UserSpots/LoadUserSpots';
 import UserSpots from './components/UserSpots';
+import LoadUserReviews from './components/Reviews/UserReviews';
+import UserReviews from './components/Reviews/UserReviews';
 
 function App() {
   const dispatch = useDispatch();
@@ -27,6 +29,10 @@ function App() {
           <Route exact path="/my-spots">
             <UserSpots />
           </Route>
+          <Route exact path="/myreviews">
+            <UserReviews />
+          </Route>
+
           <Route path="/spots/:spotId">
             <LoadSingleSpot />
           </Route>

@@ -40,6 +40,7 @@ export const getSpotReviewsTK = (spotId) => async (dispatch) => {
   if (res.ok) {
     const data = await res.json();
     const reviews = data.Reviews; //array [{}, {}]
+
     dispatch(loadSpotReviews(reviews));
     return data;
   }
@@ -63,13 +64,23 @@ export const removeReviewTK = (reviewId) => async (dispatch) => {
   }
 };
 
-export const thunkCreateNewReview =
+export const createNewReviewTK =
   (newReview, spotId, user) => async (dispatch) => {
     const res = await csrfFetch(`/api/spots/${spotId}/reviews`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(newReview),
     });
+
+    if (!res.ok) {
+      let error;
+      if (res.status === 403) {
+        error = await res.json();
+        return error.message;
+
+      }
+      console.log(error)
+    }
 
     if (res.ok) {
       const newReview = await res.json();
