@@ -33,7 +33,7 @@ cursor: pointer;
   transition: background-color 3s;
 }
 .profileButton:hover {
-  background-color: rgba(202, 112, 112, 0.604);
+  /* background-color: rgba(202, 112, 112, 0.604); */
   cursor: pointer;
 }
 .logowrapper{
@@ -90,6 +90,7 @@ cursor: pointer;
 }
 button {
 background: none;
+width: auto;
   cursor: pointer;
   border: none;
 }
@@ -121,6 +122,13 @@ background: none;
   background-color: rgba(197, 186, 186, 0.534);
   /* font-size: 20px; */
 }
+.create-spot-main:hover{
+    background-color: rgba(218, 207, 207, 0.534);
+    top: 51px;
+    transition: 0s;
+    /* left:1301px */
+}
+
 @media screen and (max-width:1600px) {
   .demo-user-main,.create-spot-main{
     left:1200px

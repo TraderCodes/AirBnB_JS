@@ -28,23 +28,15 @@ function Navigation({ isLoaded }) {
           </div>
         )}
         {sessionUser && (
-          <>
+
             <div className='create-spot-main'>
-              <OpenModalButton className="menu-button-demo"
+              <OpenModalButton
                 buttonText="Firebnb your home !"
                 modalComponent={<CreateSpotModal />}
               />
             </div>
-            {/* <div>
-              <NavLink exact to="/my-spots">
-                <div className="logowrapper">
-                  <img className="logo" style={{ height: '80px' }} />
-                  <span style={{ textDecoration: 'none' }}>MY SPOTS</span>
-                </div>
-              </NavLink>
-            </div> */}
+     
 
-          </>
         )}
         {isLoaded && (
           <>
