@@ -107,3 +107,53 @@ background: none;
   flex-direction: column;
   padding: 8px;
 }
+.demo-user-main ,.create-spot-main{
+  position: absolute;
+  top: 50px;
+  left:1300px;
+  transition: 1s;
+}
+
+.create-spot-main{
+  border-radius: 15px;
+  padding: 10px;
+  /* margin-top: px; */
+  background-color: rgba(197, 186, 186, 0.534);
+  /* font-size: 20px; */
+}
+@media screen and (max-width:1600px) {
+  .demo-user-main,.create-spot-main{
+    left:1200px
+
+  }
+}
+@media screen and (max-width:1500px) {
+  .demo-user-main,.create-spot-main{
+    left:900px
+
+  }
+}
+@media screen and (max-width:1200px) {
+  .demo-user-main,.create-spot-main{
+    left:700px
+
+  }
+}
+@media screen and (max-width:980px) {
+  .demo-user-main,.create-spot-main{
+    left:500px
+
+  }
+}
+@media screen and (max-width:790px) {
+  .demo-user-main,.create-spot-main{
+    left:400px
+
+  }
+}
+@media screen and (max-width:670px) {
+  .demo-user-main,.create-spot-main{
+    left:300px
+
+  }
+}

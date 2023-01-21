@@ -12,44 +12,49 @@ function Navigation({ isLoaded }) {
 
   return (
     <>
-    <ul className="wrapper">
-      <div>
-        <NavLink exact to="/">
-          <div className="logowrapper">
-            <img className="logo" src={logo} style={{ height: '80px' }} />
-            <span style={{ textDecoration: 'none' }}>FireBnb</span>
-          </div>
-        </NavLink>
-      </div>
+      <div className="wrapper">
+        <div>
+          <NavLink exact to="/">
+            <div className="logowrapper">
+              <img className="logo" src={logo} style={{ height: '80px' }} />
+              <span style={{ textDecoration: 'none' }}>FireBnb</span>
+            </div>
+          </NavLink>
+        </div>
 
-        <div>
-          <DemoUser />
-        </div>
-      {sessionUser && (
-        <div>
-
-        <div>
-          <OpenModalButton
-            buttonText="Create Spot !"
-            modalComponent={<CreateSpotModal />}
-          />
-        </div>
-          <div>
-        <NavLink exact to="/my-spots">
-          <div className="logowrapper">
-            <img className="logo"  style={{ height: '80px' }} />
-            <span style={{ textDecoration: 'none' }}>MY SPOTS</span>
+        {!sessionUser && (
+          <div className='demo-user-main'>
+            <DemoUser />
           </div>
-        </NavLink>
+        )}
+        {sessionUser && (
+          <>
+            <div className='create-spot-main'>
+              <OpenModalButton className="menu-button-demo"
+                buttonText="Firebnb your home !"
+                modalComponent={<CreateSpotModal />}
+              />
+            </div>
+            {/* <div>
+              <NavLink exact to="/my-spots">
+                <div className="logowrapper">
+                  <img className="logo" style={{ height: '80px' }} />
+                  <span style={{ textDecoration: 'none' }}>MY SPOTS</span>
+                </div>
+              </NavLink>
+            </div> */}
+
+          </>
+        )}
+        {isLoaded && (
+          <>
+
+          <div className="profile-container">
+            <ProfileButton user={sessionUser} />
+          </div>
+          </>
+        )}
       </div>
-      </div>
-      )}
-      {isLoaded && (
-        <div className="profile-container">
-          <ProfileButton user={sessionUser} />
-        </div>
-      )}
-    </ul>
     </>
   );
 }
