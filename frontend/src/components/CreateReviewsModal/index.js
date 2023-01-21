@@ -54,7 +54,7 @@ const CreateReviewsModal = ({ spotId }) => {
 
   return (
     <div>
-      <div>Leave a Review</div>
+      <div className="modalHead">Leave a Review</div>
 
       <div>
         {hasSubmitted &&
@@ -63,8 +63,8 @@ const CreateReviewsModal = ({ spotId }) => {
       </div>
 
       <form onSubmit={handleSubmit}>
-        <div>
-          <label>
+        <div className="form-wrapper">
+          <label className="form-label">
             Rating:&nbsp;
             <select
               type="number"
@@ -76,8 +76,8 @@ const CreateReviewsModal = ({ spotId }) => {
               ))}
             </select>
           </label>
-          <div></div>
-          <label>
+          <div className="line"></div>
+          <label className="form-label">
             Review:
             <textarea
               type="text"
@@ -85,12 +85,11 @@ const CreateReviewsModal = ({ spotId }) => {
               onChange={(e) => setReview(e.target.value)}
             />
           </label>
+          <div className="line"></div>
           <div className=""></div>
         </div>
 
-        <button>Create Review</button>
-
-
+        <button className="modal-submit-button">Create Review</button>
       </form>
     </div>
   );

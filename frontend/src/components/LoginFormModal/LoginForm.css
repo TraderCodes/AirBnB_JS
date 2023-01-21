@@ -1,0 +1,65 @@
+form {
+  display: flex;
+  flex-direction: column;
+  width: 400px;
+  /* align-items: center; */
+  margin: auto;
+  flex-wrap: wrap;
+  align-content: center;
+}
+.login-text {
+  color: black;
+  font-size: 15px;
+  padding: 10px 0px;
+  /* top bottom / left right  */
+  width: fit-content;
+  margin: auto;
+}
+input {
+  width: 100%;
+  font-size: 20px;
+  padding: 4px;
+  border: none;
+  border-radius: 4px;
+  /* margin: 4px 0px; */
+
+  background-color: rgba(255, 0, 0, 0.033);
+}
+input:hover{
+  background-color: rgba(162, 193, 193, 0.181);
+}
+.modal-submit-button {
+  width: 100%;
+  border-radius: 5px;
+  padding: 10px;
+  border: 1px rgb(235, 130, 133) solid;
+  background: rgb(228, 118, 122);
+  color: white;
+}
+
+.modalHead{
+    color: black;
+  font-size: 17px;
+  padding: 10px 0px;
+  width: fit-content;
+  margin: auto;
+  font-weight: bold;
+}
+.form-wrapper {
+  border: rgba(200, 66, 66, 0.115) 1px solid;
+  border-radius: 9px;
+  margin: 15px 25px 25px 25px;
+padding: 20px;
+}
+textarea{
+  margin-top: 30px;
+  margin-left: 10px;
+}
+select{
+  margin-left: 10px;
+}
+/* .line {
+  width: 100%;
+  background-color: rgba(152, 161, 180, 0.351);
+  height: 0.01rem;
+} */

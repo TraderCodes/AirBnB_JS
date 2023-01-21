@@ -15,10 +15,37 @@
   right: 0;
   left: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: rgba(0, 0, 0, 0.207);
 }
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400&display=swap');
 
+* {
+  font-family: "Poppins", sans-serif;
+}
 #modal-content {
   position: absolute;
-  background-color:white;
+  background-color: white;
+  padding: 10px;
+  /* width: 260px;
+  min-height: 318px;
+  max-height: 268px; */
+  /* justify-content: center;
+  display: flex; */
+  opacity: 0.99;
+  align-items: center;
+  border-color: #dbc3c3;
+  border-width: 4px;
+  border-radius: 6px;
+  border-style: solid;
+}
+.modal-submit-button:hover {
+  background: white;
+  color:rgba(255, 90, 96, 0.495);
+  border: 1px rgb(255, 90, 96) solid;
+  cursor: pointer;
+}
+.form-label{
+    color: rgb(116, 14, 17);
+  font-size: 15px;
+  padding-left: 3px;
 }
