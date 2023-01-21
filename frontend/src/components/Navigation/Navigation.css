@@ -3,6 +3,7 @@
   padding: 0;
   margin:0
 }
+
 .hidden {
   display: none;
 }
@@ -32,7 +33,7 @@ cursor: pointer;
   transition: background-color 3s;
 }
 .profileButton:hover {
-  background-color: rgba(202, 112, 112, 0.604);
+  /* background-color: rgba(202, 112, 112, 0.604); */
   cursor: pointer;
 }
 .logowrapper{
@@ -48,3 +49,119 @@ cursor: pointer;
 
 }
 
+.profile-dropdown {
+  min-width: 150px;
+  margin-top: 5px;
+  /* padding-top: 2px; */
+  /* padding-bottom: 5px; */
+  padding: 10px;
+  /* margin-right: 45px; */
+  border-radius: 15px;
+  background-color: white;
+  box-shadow: 0px 2px 2px 1px rgba(194, 196, 191, 0.2), 0px 3px 3px 4px rgba(122, 120, 120, 0.19);
+  z-index: 9999;
+  position: relative;
+  right: 37px;
+  /* /* display: flex; */
+  flex-direction: column;
+  gap: 2px;
+}
+.userStyle-line{
+    background-color: rgb(96, 123, 198, 0.2);
+  width: 100%;
+  height: 1px;
+  margin-top: 18px;
+  margin-bottom: 6px;
+}
+
+.menu-button {
+  /* margin-top: 15px; */
+  padding-top: 9px;
+  padding-bottom: 9px;
+  padding-left: 15px;
+  /* height: 20px; */
+  border-radius: 10px;
+   transition: 0.8s;
+   font-size: 15px;
+}
+.menu-button:hover {
+  background-color: rgba(154, 164, 187, 0.3);
+  cursor: pointer;
+}
+button {
+background: none;
+width: auto;
+  cursor: pointer;
+  border: none;
+}
+.menu-button-demo {
+  padding-top: 9px;
+  padding-bottom: 9px;
+  padding-left: 15px;
+  border-radius: 10px;
+  background-color: rgba(184, 127, 127, 0.171);
+}
+
+.namewrap{
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding: 8px;
+}
+.demo-user-main ,.create-spot-main{
+  position: absolute;
+  top: 50px;
+  left:1300px;
+  transition: 1s;
+}
+
+.create-spot-main{
+  border-radius: 15px;
+  padding: 10px;
+  /* margin-top: px; */
+  background-color: rgba(197, 186, 186, 0.534);
+  /* font-size: 20px; */
+}
+.create-spot-main:hover{
+    background-color: rgba(218, 207, 207, 0.534);
+    top: 51px;
+    transition: 0s;
+    /* left:1301px */
+}
+
+@media screen and (max-width:1600px) {
+  .demo-user-main,.create-spot-main{
+    left:1200px
+
+  }
+}
+@media screen and (max-width:1500px) {
+  .demo-user-main,.create-spot-main{
+    left:900px
+
+  }
+}
+@media screen and (max-width:1200px) {
+  .demo-user-main,.create-spot-main{
+    left:700px
+
+  }
+}
+@media screen and (max-width:980px) {
+  .demo-user-main,.create-spot-main{
+    left:500px
+
+  }
+}
+@media screen and (max-width:790px) {
+  .demo-user-main,.create-spot-main{
+    left:400px
+
+  }
+}
+@media screen and (max-width:670px) {
+  .demo-user-main,.create-spot-main{
+    left:300px
+
+  }
+}

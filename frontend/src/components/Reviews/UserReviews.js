@@ -12,7 +12,7 @@ const UserReviews = () => {
 
   useEffect(() => {
     dispatch(getUserReviewsTK());
-  }, [dispatch, reviewsObj]);
+  }, [dispatch]);
 
   if (!currentUser) return <Redirect to="/" />;
 

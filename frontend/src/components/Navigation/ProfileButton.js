@@ -47,41 +47,46 @@ function ProfileButton({ user }) {
       <ul className={ulClassName} ref={ulRef}>
         {user ? (
           <>
-            <li>{user.username}</li>
-            <li>
+          <div className='namewrap'>
+
+            <div className="userStyle">{user.username}</div>
+            <div className="userStyle">
               {user.firstName} {user.lastName}
-            </li>
-            <li>{user.email}</li>
-            <li>
+            </div>
+            <div className="userStyle">{user.email}</div>
+            <div className="userStyle-line"></div>
+          </div>
+            <div>
               <NavLink exact to="/myreviews">
-                <button>
-                  My Reviews
-                  {/* <UserReviews /> */}
-                </button>
+                <div className="menu-button">
+                  <button>My Reviews</button>
+                </div>
               </NavLink>
-            </li>
+            </div>
             <NavLink exact to="/my-spots">
-              <button>My Spots</button>
+              <div className="menu-button">
+                <button>My Spots</button>
+              </div>
             </NavLink>
-            <li>
-              <button onClick={logout}>Log Out</button>
-            </li>
+            <div className="menu-button">
+              <button id="demouser"style ={{color:"red"}} onClick={logout}>Log Out</button>
+            </div>
           </>
         ) : (
           <>
-            <li>
+            <div className="menu-button">
               <OpenModalButton
                 buttonText="Log In"
                 modalComponent={<LoginFormModal />}
               />
-            </li>
-            <li>
+            </div>
+            <div className="menu-button">
               <OpenModalButton
                 buttonText="Sign Up"
                 modalComponent={<SignupFormModal />}
               />
-            </li>
-            <div>
+            </div>
+            <div >
               <DemoUser />
             </div>
           </>

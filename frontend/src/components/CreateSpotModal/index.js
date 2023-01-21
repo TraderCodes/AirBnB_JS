@@ -51,15 +51,15 @@ const CreateSpotModal = () => {
   return (
     <div>
       <form onSubmit={handleSubmit}>
-        <div>Please Fill Below!</div>
+        {/* <div>Please Fill Below!</div> */}
         <div>
-          <div>Create your spot</div>
+          <div className="modalHead">Create your spot</div>
           <ul>
             {errors && errors.map((error, id) => <li key={id}>{error}</li>)}
           </ul>
 
           <div>
-            <label>
+            <label className="form-label">
               Address
               <input
                 type="text"
@@ -71,7 +71,7 @@ const CreateSpotModal = () => {
           </div>
 
           <div>
-            <label>
+            <label className="form-label">
               City
               <input
                 type="text"
@@ -83,7 +83,7 @@ const CreateSpotModal = () => {
           </div>
 
           <div>
-            <label>
+            <label className="form-label">
               State
               <input
                 type="text"
@@ -95,7 +95,7 @@ const CreateSpotModal = () => {
           </div>
 
           <div>
-            <label>
+            <label className="form-label">
               Country
               <input
                 type="text"
@@ -107,7 +107,7 @@ const CreateSpotModal = () => {
           </div>
 
           <div>
-            <label>
+            <label className="form-label">
               lat
               <input
                 type="decimel"
@@ -121,7 +121,7 @@ const CreateSpotModal = () => {
           </div>
 
           <div>
-            <label>
+            <label className="form-label">
               lng
               <input
                 type="decimel"
@@ -135,7 +135,7 @@ const CreateSpotModal = () => {
           </div>
 
           <div>
-            <label>
+            <label className="form-label">
               Spot name
               <input
                 type="text"
@@ -146,7 +146,7 @@ const CreateSpotModal = () => {
           </div>
 
           <div>
-            <label>
+            <label className="form-label">
               Description
               <input
                 type="text"
@@ -157,8 +157,8 @@ const CreateSpotModal = () => {
           </div>
 
           <div>
-            <label>
-              Price a night
+            <label className="form-label">
+              Price a night $
               <input
                 type="number"
                 value={price}
@@ -167,8 +167,8 @@ const CreateSpotModal = () => {
             </label>
           </div>
 
-          <div >
-            <label >
+          <div>
+            <label className="form-label">
               Img url
               <input
                 type="text"
@@ -181,7 +181,7 @@ const CreateSpotModal = () => {
           </div>
 
           <div>
-            <label>
+            <label className="form-label">
               Set Preview Image
               <select
                 onChange={(e) => setPreview(e.target.value)}
@@ -193,7 +193,9 @@ const CreateSpotModal = () => {
             </label>
           </div>
           <div>
-            <button type="submit">Create new Spot !</button>
+            <button className="modal-submit-button" type="submit">
+              Create new Spot !
+            </button>
           </div>
         </div>
       </form>
