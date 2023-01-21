@@ -7,7 +7,6 @@ function LoadAllSpots() {
   const dispatch = useDispatch();
   // use useSelect to get the state
   const spotsObj = useSelector((state) => {
-    // console.log('state',state.spots)
     return state.spots.allSpots;
   });
   const spotsArr = Object.values(spotsObj);
@@ -15,9 +14,7 @@ function LoadAllSpots() {
 
   useEffect(() => {
     dispatch(getAllSpotsTK());
-    // return () => {
-    // dispatch(acResetSpots());
-    // };
+
   }, [dispatch]);
   if (!spotsArr.length) return null;
   return (

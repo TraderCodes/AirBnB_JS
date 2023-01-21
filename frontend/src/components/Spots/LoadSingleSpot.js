@@ -1,24 +1,33 @@
 import React, { useEffect } from 'react';
 import noImage from '../../images/noimage.jpg';
 import { useDispatch, useSelector } from 'react-redux';
-import { getSingleSpotTK } from '../../store/spots';
+import { getSingleSpotTK, acResetSpots } from '../../store/spots';
 import { useParams } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import './Spot.css';
+import SpotReviews from '../Reviews/SpotReviews';
+
 export default function LoadSingleSpot() {
+  const history = useHistory();
   const dispatch = useDispatch();
   const { spotId } = useParams();
   const spot = useSelector((state) => {
     return state.spots.singleSpot;
   });
-  useEffect(() => {
-    dispatch(getSingleSpotTK(spotId));
-  }, [dispatch, spotId]);
-  // console.log(spot)
+  const reviews = useSelector((state) => {
+    return state.reviews.spot;
+  });
 
-  // if no spot return null
+  useEffect(() => {
+    dispatch(getSingleSpotTK(+spotId));
+    history.push(`/spots/${spotId}`);
+  }, [dispatch]);
+
+
   if (!Object.values(spot).length) return null;
 
   const spotImgArr = spot?.SpotImages;
+
   let previewImages;
   let displayImages = [];
   if (spotImgArr) {
@@ -53,7 +62,6 @@ export default function LoadSingleSpot() {
           </span>
         </div>
       </div>
-
       <div id="spot-img-container">
         <img id="preview-img" alt={spot.name} src={previewImages} />
         <div className="other-img-container">
@@ -68,6 +76,10 @@ export default function LoadSingleSpot() {
               />
             ))}
         </div>
+      </div>
+
+      <div className="one-spot-reviews-container">
+        <SpotReviews spotId={spotId} />
       </div>
     </div>
   );
