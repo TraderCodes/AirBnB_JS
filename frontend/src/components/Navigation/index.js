@@ -11,6 +11,7 @@ function Navigation({ isLoaded }) {
   const sessionUser = useSelector((state) => state.session.user);
 
   return (
+    <>
     <ul className="wrapper">
       <div>
         <NavLink exact to="/">
@@ -49,6 +50,7 @@ function Navigation({ isLoaded }) {
         </div>
       )}
     </ul>
+    </>
   );
 }
 

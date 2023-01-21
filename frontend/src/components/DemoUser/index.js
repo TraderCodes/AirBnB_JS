@@ -15,11 +15,11 @@ const DemoUser = () => {
   };
 
   return (
-    <>
+    <div className="menu-button-demo">
       <button id="demouser" onClick={DemoUserLogin}>
-         Demo User
+        Demo User
       </button>
-    </>
+    </div>
   );
 };
 
