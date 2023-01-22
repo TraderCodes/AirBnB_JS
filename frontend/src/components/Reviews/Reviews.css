@@ -16,7 +16,12 @@
 .user-reviews-wrapper{
 }
 } */
-
+h1{
+  /* text-transform: capitalize; */
+}
+#spot-img:hover{
+opacity: 0.85;
+}
 .review-delete-button{
       cursor: pointer;
     /* width: 115px; */

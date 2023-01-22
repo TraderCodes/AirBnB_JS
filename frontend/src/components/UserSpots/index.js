@@ -44,7 +44,7 @@ const UserSpots = () => {
             return (
               <div className="user-spot-outer" key={spot.id}>
                 <NavLink
-                  style={{ textDecoration: 'none' }}
+                  style={{ textDecoration: 'none', color: 'black' }}
                   to={`/spots/${spot.id}`}
                 >
                   <div className="user-img-div">
@@ -53,26 +53,25 @@ const UserSpots = () => {
 
                   <div className="user-info-container">
                     <div>
-                      <span>
+                      <span className="allspot-location">
                         {spot.city}
-{', '}
+                        {', '}
                         {spot.state}
                       </span>
                       <div>
                         <i
                           className="fa-sharp fa-solid fa-star"
                           style={{ color: 'black' }}
-                        ></i>
-                      {' '} <span>
+                        ></i>{' '}
+                        <span>
                           {spot.avgRating === 'NaN' ? 'New' : spot.avgRating}
                         </span>
                       </div>
                     </div>
-
+                    <div className="allspot-country">{spot.country}</div>
                     <div className="user-price-container">
-                      <div>
-                        <span>{`$${spot.price}`}</span>
-                       {' '} a night
+                      <div className="allspot-price">
+                        <span>{`$${spot.price}`}</span> night
                       </div>
                     </div>
                   </div>

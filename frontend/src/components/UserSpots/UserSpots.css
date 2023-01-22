@@ -4,7 +4,6 @@
   column-gap: 20px;
   grid-template-columns: repeat(4, 1fr);
   margin: 30px 150px 60px 150px;
-
 }
 #spot-img {
   position: absolute;
@@ -13,7 +12,7 @@
   object-fit: cover;
   min-height: 100%;
   border-radius: 10px;
-    transition: 1s;
+  transition: 1s;
 }
 .user-img-div {
   width: 100%;
@@ -26,8 +25,8 @@
   display: flex;
   flex-direction: column;
   transition: 1s;
-	margin-bottom: 22px;
-	width: auto;
+  margin-bottom: 22px;
+  width: auto;
 }
 
 .user-spot-title {
@@ -35,50 +34,54 @@
   flex-direction: row;
   justify-content: center;
   margin-top: 50px;
-  color:rgb(41, 11, 11);
+  color: rgb(41, 11, 11);
 }
 .user-editdelete {
   display: flex;
-  justify-content:space-between;
+  justify-content: space-between;
   padding: 0px 2px 2px 0px;
   /* min-width: 0px; */
 }
-
+.user-submit-button > button {
+  color: white;
+}
 .user-submit-button {
   cursor: pointer;
   width: 115px;
   padding: 2.5px 9px;
   margin: 6px 0px 4px 0px;
-     border: 1px rgb(235, 130, 133) solid;
-    background: rgb(228, 118, 122);
+  border: 1px rgb(235, 130, 133) solid;
+  background: rgb(228, 118, 122);
   border-radius: 4px;
   font-size: 15px;
-    transition: 0.5s;
-display: grid;
+  transition: 0.5s;
+  display: grid;
+  color: white;
 }
 
 .user-submit-button:hover {
   border: 1px rgb(255, 90, 96) solid;
-  color:rgb(255, 90, 96);
+  color: rgb(255, 90, 96);
   background: white;
-    transition: 0.5s;
+  transition: 0.5s;
 }
-@media screen and (max-width:1379px) {
-.user-submit-button{
-  width: 80px;
+.user-submit-button > button:hover {
+  color: rgb(255, 90, 96);
 }
+@media screen and (max-width: 1379px) {
+  .user-submit-button {
+    width: 80px;
+  }
 }
-@media screen and (max-width:1200px) {
- .user-spot-container {
-
-  grid-template-columns: repeat(3, 1fr);
-  transition: 1s;
+@media screen and (max-width: 1200px) {
+  .user-spot-container {
+    grid-template-columns: repeat(3, 1fr);
+    transition: 1s;
+  }
 }
-}
-@media screen and (max-width:934px) {
- .user-spot-container {
-
-  grid-template-columns: repeat(2, 1fr);
-  transition: 1s;
-}
+@media screen and (max-width: 934px) {
+  .user-spot-container {
+    grid-template-columns: repeat(2, 1fr);
+    transition: 1s;
+  }
 }
