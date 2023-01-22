@@ -3,7 +3,12 @@
   padding: 0;
   margin:0
 }
+.logo{
+  /* size: 30px; */
+  font-size: 30px;
+  font-weight: bolder;
 
+}
 .hidden {
   display: none;
 }
@@ -39,6 +44,7 @@ cursor: pointer;
 .logowrapper{
   display: flex;
   align-items: center;
+  margin-left: 40px;
 }
 .logowrapper span{
   margin-top: 30px;

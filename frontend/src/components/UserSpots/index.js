@@ -55,7 +55,7 @@ const UserSpots = () => {
                     <div>
                       <span>
                         {spot.city}
-
+{', '}
                         {spot.state}
                       </span>
                       <div>
@@ -72,7 +72,7 @@ const UserSpots = () => {
                     <div className="user-price-container">
                       <div>
                         <span>{`$${spot.price}`}</span>
-                        night
+                       {' '} a night
                       </div>
                     </div>
                   </div>
