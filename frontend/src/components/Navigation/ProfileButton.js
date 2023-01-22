@@ -41,21 +41,24 @@ function ProfileButton({ user }) {
 
   return (
     <div className="wrapperr">
-      <button className="profileButton" onClick={openMenu}>
+      <button className="profileButton pfbutton" onClick={openMenu}>
+        <div className='user-icon'>
+
+        <i className="fas fa-light fa-bars"></i>
         <i className="fas fa-user-circle" />
+        </div>
       </button>
       <ul className={ulClassName} ref={ulRef}>
         {user ? (
           <>
-          <div className='namewrap'>
-
-            <div className="userStyle">{user.username}</div>
-            <div className="userStyle">
-              {user.firstName} {user.lastName}
+            <div className="namewrap">
+              <div className="userStyle">{user.username}</div>
+              <div className="userStyle">
+                {user.firstName} {user.lastName}
+              </div>
+              <div className="userStyle">{user.email}</div>
+              <div className="userStyle-line"></div>
             </div>
-            <div className="userStyle">{user.email}</div>
-            <div className="userStyle-line"></div>
-          </div>
             <div>
               <NavLink exact to="/myreviews">
                 <div className="menu-button">
@@ -69,7 +72,9 @@ function ProfileButton({ user }) {
               </div>
             </NavLink>
             <div className="menu-button">
-              <button id="demouser"style ={{color:"red"}} onClick={logout}>Log Out</button>
+              <button id="demouser" style={{ color: 'red' }} onClick={logout}>
+                Log Out
+              </button>
             </div>
           </>
         ) : (
@@ -86,7 +91,7 @@ function ProfileButton({ user }) {
                 modalComponent={<SignupFormModal />}
               />
             </div>
-            <div >
+            <div>
               <DemoUser />
             </div>
           </>

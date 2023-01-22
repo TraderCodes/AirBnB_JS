@@ -20,9 +20,9 @@ export default function Spot({ spot }) {
           )}
         </div>
 
-        <div>
-          <div>
-            <div>
+        <div >
+          <div >
+            <div className="allspot-location">
               {spot.city}, {spot.state}
             </div>
 
@@ -34,9 +34,9 @@ export default function Spot({ spot }) {
               )}
             </div>
           </div>
-          <div>{spot.country}</div>
-          <div>
-            ${spot.price} <span>Night</span>
+          <div className="allspot-country">{spot.country}</div>
+          <div className="allspot-price">
+            ${spot.price} <span className="no">night</span>
           </div>
         </div>
       </Link>
