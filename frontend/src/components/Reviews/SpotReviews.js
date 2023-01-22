@@ -39,14 +39,14 @@ const SpotReviews = ({ spotId }) => {
           </p>
 
           <p>
-            <i className="fa fa-quote-left fa-lg" aria-hidden="true"></i>
+            <i className="fa fa-light fa-fire" aria-hidden="true"></i>
             <span>{review.review}</span>
-            <i className="fa fa-quote-right fa-lg" aria-hidden="true"></i>
+            <i className="fa fa-light fa-fire" aria-hidden="true"></i>
           </p>
           <div>
             {review.ReviewImages &&
               review.ReviewImages.map((image) => {
-                return <img style={{height :'50px'}} src={image.url} />;
+                return <img style={{ height: '50px' }} src={image.url} />;
               })}
           </div>
         </div>

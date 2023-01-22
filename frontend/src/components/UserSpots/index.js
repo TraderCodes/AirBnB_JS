@@ -63,8 +63,7 @@ const UserSpots = () => {
                           className="fa-sharp fa-solid fa-star"
                           style={{ color: 'black' }}
                         ></i>
-                        <span>
-           
+                      {' '} <span>
                           {spot.avgRating === 'NaN' ? 'New' : spot.avgRating}
                         </span>
                       </div>

@@ -13,6 +13,7 @@ export default function LoadSingleSpot() {
   const history = useHistory();
   const dispatch = useDispatch();
   const { spotId } = useParams();
+    // const spotIdNum = Number(spotId);
   const spot = useSelector((state) => {
     return state.spots.singleSpot;
   });
@@ -21,7 +22,7 @@ export default function LoadSingleSpot() {
   useEffect(() => {
     dispatch(getSingleSpotTK(+spotId));
     history.push(`/spots/${spotId}`);
-  }, [dispatch]);
+  }, [dispatch,spotId]);
 
   if (!Object.values(spot).length) return null;
 
@@ -49,8 +50,8 @@ export default function LoadSingleSpot() {
         </div>
 
         <div>
-          {spot.avgRating ? (
-            <span> ★{spot.avgRating} · </span>
+          {spot.avgStarRating ? (
+            <span> ★{spot.avgStarRating} · </span>
           ) : (
             <span> New · </span>
           )}
@@ -84,7 +85,7 @@ export default function LoadSingleSpot() {
           />
         </div>
       )}
-  
+
       <div className="one-spot-reviews-container">
         <SpotReviews spotId={spotId} />
       </div>

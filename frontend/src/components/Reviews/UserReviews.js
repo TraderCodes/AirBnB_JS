@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUserReviewsTK } from '../../store/reviews';
-
+import './Reviews.css'
 const UserReviews = () => {
   const dispatch = useDispatch();
   const currentUser = useSelector((state) => state.session.user);
@@ -18,29 +18,28 @@ const UserReviews = () => {
 
   return (
     <>
-      <div >
+      <div className="user-review-header">
         {reviewsArr.length === 0 ? (
           <>
             <h1>Reviews</h1>
             <h4>No Reviews!</h4>
           </>
         ) : (
-          <h1>My Reviews</h1>
+          <h1>Your Reviews</h1>
         )}
       </div>
 
-      <div >
-        <div >
+      <div className="wrapper-center">
+        <div>
           {
-            <div >
-              <div >
-                {reviewsArr.map((review) => (
-                  console.log(review),
-
-                  <MyReviews key={review.id} review={review}
-
-                  />
-                ))}
+            <div>
+              <div className="user-reviews-wrapper">
+                {reviewsArr.map(
+                  (review) => (
+                    console.log(review),
+                    (<MyReviews key={review.id} review={review} />)
+                  )
+                )}
               </div>
             </div>
           }

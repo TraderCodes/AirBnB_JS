@@ -11,43 +11,50 @@ const MyReviews = ({ review }) => {
   };
 
   return (
-    <div>
-      <div>
+    <div className="review-wrapper">
+      <div className="review-header">
         Review For{' '}
         <Link
           style={{ textDecoration: 'none' }}
           to={`/spots/${review.Spot.id}`}
         >
           {review.Spot.name}
-        </Link>
+        </Link>{''}
         :
       </div>
 
       <div>
-        <p>{new Date(review.createdAt).toString().slice(3, -42)}</p>
+        <p className="review-date">
+          {new Date(review.createdAt).toString().slice(3, -42)}
+        </p>
         <div>
           {[...Array(review.stars)].map((star) => (
             <i className="fa-solid fa-star"></i>
           ))}
         </div>
 
-        <div>
-          <i className="fa fa-quote-left fa-lg" aria-hidden="true"></i>
+        <div className='user-review-text'>
+          <i className="fa fa-light fa-fire" aria-hidden="true"></i>
           <span> </span>
           <span>{review.review}</span>
           <span> </span>
-          <i className="fa fa-quote-right fa-lg" aria-hidden="true"></i>
+          <i className="fa fa-light fa-fire" aria-hidden="true"></i>
         </div>
       </div>
 
       <div>
-        <button onClick={deleteReviewHandleClick}>Delete Review</button>
+        <button
+          className="review-delete-button"
+          onClick={deleteReviewHandleClick}
+        >
+          Delete Review
+        </button>
       </div>
 
       <div>
         {review.ReviewImages.length > 0 && (
           <div>
-            <p>Image For This Spot:</p>
+            <p>Image For This Spot :</p>
             <div>
               {review.ReviewImages.map((ele) => {
                 return (

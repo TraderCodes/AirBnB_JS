@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { createNewReviewTK } from '../../store/reviews';
+import { createNewReviewTK, getUserReviewsTK } from '../../store/reviews';
 import { useModal } from '../../context/Modal'
+import { getSingleSpotTK } from '../../store/spots';
 const CreateReviewsModal = ({ spotId }) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const { closeModal } = useModal();
   const [url, setUrl] = useState('');
   const [review, setReview] = useState('');
-  const [stars, setStars] = useState(1);
+  const [stars, setStars] = useState(5);
   const [errors, setErrors] = useState([]);
   const [hasSubmitted, setHasSubmitted] = useState(false);
 
@@ -47,9 +48,11 @@ const CreateReviewsModal = ({ spotId }) => {
     });
     if (newReview && !url.length) {
       closeModal();
+      dispatch(getSingleSpotTK(spotId))
+      history.push(`/spots/${spotId}`);
+      // dispatch(getUserReviewsTK(spotId))
     }
 
-    history.push(`/spots/${spotId}`);
   };
 
   return (
