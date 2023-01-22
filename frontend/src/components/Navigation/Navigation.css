@@ -143,19 +143,25 @@ width: auto;
 }
 @media screen and (max-width:1200px) {
   .demo-user-main,.create-spot-main{
-    left:700px
+    left:600px
 
   }
 }
+/* @media screen and (max-width:1020px) {
+  .demo-user-main,.create-spot-main{
+    left:400px
+
+  }
+} */
 @media screen and (max-width:980px) {
   .demo-user-main,.create-spot-main{
-    left:500px
+    left:450px
 
   }
 }
 @media screen and (max-width:790px) {
   .demo-user-main,.create-spot-main{
-    left:400px
+    left:380px
 
   }
 }
