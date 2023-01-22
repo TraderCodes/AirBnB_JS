@@ -14,7 +14,12 @@ function Navigation({ isLoaded }) {
     <>
       <div className="wrapper">
         <div>
-          <NavLink style={{ textDecoration: 'none' }} className='logo'exact to="/">
+          <NavLink
+            style={{ textDecoration: 'none' }}
+            className="logo"
+            exact
+            to="/"
+          >
             <div className="logowrapper">
               <img className="logo" src={logo} style={{ height: '80px' }} />
               <span>FireBnb</span>
@@ -43,6 +48,7 @@ function Navigation({ isLoaded }) {
           </>
         )}
       </div>
+      <div className="breaker"></div>
     </>
   );
 }

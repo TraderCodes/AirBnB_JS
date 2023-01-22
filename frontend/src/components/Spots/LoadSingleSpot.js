@@ -83,7 +83,10 @@ export default function LoadSingleSpot() {
         </h2>
       </div>
       <div className="spot-description">
-        <p>{spot.description}</p>
+        <p>
+          <i class="fa fa-quote-left fa-lg"></i> {spot.description}{' '}
+          <i class="fa fa-quote-right fa-lg"></i>
+        </p>
       </div>
 
       <div className="breaker"></div>
