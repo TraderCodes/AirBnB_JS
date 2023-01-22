@@ -76,15 +76,19 @@ const UpdateSpotForm = ({ setModal, spotId }) => {
   return (
     <div>
       <form onSubmit={handleSubmit}>
-        <div>Spot Edit</div>
+        <div className="modalHead">Edit your spot</div>
         <div>
-          <div>Update your spot</div>
           <ul>
-            {errors && errors.map((error, id) => <li key={id}>{error}</li>)}
+            {errors &&
+              errors.map((error, id) => (
+                <li style={{ color: 'red' }} key={id}>
+                  {error}
+                </li>
+              ))}
           </ul>
 
           <div>
-            <label>
+            <label className="form-label">
               Address
               <input
                 type="text"
@@ -95,47 +99,44 @@ const UpdateSpotForm = ({ setModal, spotId }) => {
             </label>
           </div>
 
-          <div >
-            <label >
+          <div>
+            <label className="form-label">
               City
               <input
                 type="text"
                 required
                 value={city}
                 onChange={(e) => setCity(e.target.value)}
-
               />
             </label>
           </div>
 
-          <div >
-            <label >
+          <div>
+            <label className="form-label">
               State
               <input
                 type="text"
                 required
                 value={state}
                 onChange={(e) => setState(e.target.value)}
-
               />
             </label>
           </div>
 
-          <div >
-            <label>
+          <div>
+            <label className="form-label">
               Country
               <input
                 type="text"
                 required
                 value={country}
                 onChange={(e) => setCountry(e.target.value)}
-
               />
             </label>
           </div>
 
-          <div >
-            <label >
+          <div>
+            <label className="form-label">
               lat
               <input
                 type="decimel"
@@ -143,13 +144,12 @@ const UpdateSpotForm = ({ setModal, spotId }) => {
                 max="90"
                 value={lat}
                 onChange={(e) => setLat(e.target.value)}
-
               />
             </label>
           </div>
 
           <div>
-            <label >
+            <label className="form-label">
               lng
               <input
                 type="decimel"
@@ -157,13 +157,12 @@ const UpdateSpotForm = ({ setModal, spotId }) => {
                 max="190"
                 value={lng}
                 onChange={(e) => setLng(e.target.value)}
-
               />
             </label>
           </div>
 
-          <div >
-            <label >
+          <div>
+            <label className="form-label">
               Spot Name
               <input
                 type="text"
@@ -175,7 +174,7 @@ const UpdateSpotForm = ({ setModal, spotId }) => {
           </div>
 
           <div className="inputContainer" id="middle-label">
-            <label className="create-spot-label">
+            <label className="form-label">
               Description
               <input
                 type="text"
@@ -186,31 +185,28 @@ const UpdateSpotForm = ({ setModal, spotId }) => {
             </label>
           </div>
 
-          <div >
-            <label >
+          <div>
+            <label className="form-label">
               Price A night
               <input
                 type="number"
                 value={price}
                 onChange={(e) => setPrice(e.target.value)}
-
               />
             </label>
           </div>
 
-
-
           <div>
-            <button type="submit" className="styledButton">
+            <button type="submit" className="modal-submit-button">
               Update
             </button>
-            <button
+            {/* <button
               type="button"
               onClick={()=>closeModal()}
 
             >
               Cancel
-            </button>
+            </button> */}
           </div>
         </div>
       </form>

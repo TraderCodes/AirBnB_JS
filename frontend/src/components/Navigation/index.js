@@ -14,39 +14,41 @@ function Navigation({ isLoaded }) {
     <>
       <div className="wrapper">
         <div>
-          <NavLink exact to="/">
+          <NavLink
+            style={{ textDecoration: 'none' }}
+            className="logo"
+            exact
+            to="/"
+          >
             <div className="logowrapper">
               <img className="logo" src={logo} style={{ height: '80px' }} />
-              <span style={{ textDecoration: 'none' }}>FireBnb</span>
+              <span>FireBnb</span>
             </div>
           </NavLink>
         </div>
 
         {!sessionUser && (
-          <div className='demo-user-main'>
+          <div className="demo-user-main">
             <DemoUser />
           </div>
         )}
         {sessionUser && (
-
-            <div className='create-spot-main'>
-              <OpenModalButton
-                buttonText="Firebnb your home !"
-                modalComponent={<CreateSpotModal />}
-              />
-            </div>
-     
-
+          <div className="create-spot-main">
+            <OpenModalButton
+              buttonText="Firebnb your home !"
+              modalComponent={<CreateSpotModal />}
+            />
+          </div>
         )}
         {isLoaded && (
           <>
-
-          <div className="profile-container">
-            <ProfileButton user={sessionUser} />
-          </div>
+            <div className="profile-container">
+              <ProfileButton user={sessionUser} />
+            </div>
           </>
         )}
       </div>
+      <div className="breaker"></div>
     </>
   );
 }

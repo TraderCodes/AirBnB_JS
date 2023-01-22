@@ -13,6 +13,7 @@ export default function LoadSingleSpot() {
   const history = useHistory();
   const dispatch = useDispatch();
   const { spotId } = useParams();
+    // const spotIdNum = Number(spotId);
   const spot = useSelector((state) => {
     return state.spots.singleSpot;
   });
@@ -21,7 +22,7 @@ export default function LoadSingleSpot() {
   useEffect(() => {
     dispatch(getSingleSpotTK(+spotId));
     history.push(`/spots/${spotId}`);
-  }, [dispatch]);
+  }, [dispatch,spotId]);
 
   if (!Object.values(spot).length) return null;
 
@@ -49,8 +50,8 @@ export default function LoadSingleSpot() {
         </div>
 
         <div>
-          {spot.avgRating ? (
-            <span> ★{spot.avgRating} · </span>
+          {spot.avgStarRating ? (
+            <span> ★{spot.avgStarRating} · </span>
           ) : (
             <span> New · </span>
           )}
@@ -76,18 +77,42 @@ export default function LoadSingleSpot() {
             ))}
         </div>
       </div>
+      <div className="spot-lower-title">
+        <h2 className="spot-name">
+          Entire home hosted by {spot.Owner.firstName} {spot.Owner.lastName}
+        </h2>
+      </div>
+      <div className="spot-description">
+        <p>
+          <i class="fa fa-quote-left fa-lg"></i> {spot.description}{' '}
+          <i class="fa fa-quote-right fa-lg"></i>
+        </p>
+      </div>
+
+      <div className="breaker"></div>
       {currentUser && (
-        <div>
+        <div className="review-button">
           <OpenModalButton
-            buttonText="Create Spot !"
+            buttonText="Leave a Review"
             modalComponent={<CreateReviewsModal spotId={spotId} />}
           />
         </div>
       )}
-  
+
+      <h2 className="review-stats-middle">
+        <span>
+          {spot.avgStarRating ? (
+            <span className="bold">★ {spot.avgStarRating} · </span>
+          ) : (
+            <span className="bold">★ New · </span>
+          )}
+        </span>
+        <span>{spot.numReviews} reviews</span>
+      </h2>
       <div className="one-spot-reviews-container">
         <SpotReviews spotId={spotId} />
       </div>
+      <div className="breaker"></div>
     </div>
   );
 }

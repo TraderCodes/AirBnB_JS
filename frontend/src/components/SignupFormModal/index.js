@@ -49,7 +49,9 @@ function SignupFormPage() {
         <div className="line"></div>
         <div>
           {errors.map((error, idx) => (
-            <li key={idx}>{error}</li>
+            <li style={{ color: 'red' }} key={idx}>
+              {error}
+            </li>
           ))}
         </div>
         <div className="form-wrapper">
