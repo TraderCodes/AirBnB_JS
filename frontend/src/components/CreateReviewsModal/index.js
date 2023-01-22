@@ -62,7 +62,7 @@ const CreateReviewsModal = ({ spotId }) => {
       <div>
         {hasSubmitted &&
           errors &&
-          errors.map((error) => <div key={error}>{error}</div>)}
+          errors.map((error) => <div style={{color:'red'}} key={error}>{error}</div>)}
       </div>
 
       <form onSubmit={handleSubmit}>

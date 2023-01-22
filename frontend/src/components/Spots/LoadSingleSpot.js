@@ -77,18 +77,39 @@ export default function LoadSingleSpot() {
             ))}
         </div>
       </div>
+      <div className="spot-lower-title">
+        <h2 className="spot-name">
+          Entire home hosted by {spot.Owner.firstName} {spot.Owner.lastName}
+        </h2>
+      </div>
+      <div className="spot-description">
+        <p>{spot.description}</p>
+      </div>
+
+      <div className="breaker"></div>
       {currentUser && (
-        <div>
+        <div className="review-button">
           <OpenModalButton
-            buttonText="Create Spot !"
+            buttonText="Leave a Review"
             modalComponent={<CreateReviewsModal spotId={spotId} />}
           />
         </div>
       )}
 
+      <h2 className="review-stats-middle">
+        <span>
+          {spot.avgStarRating ? (
+            <span className="bold">★ {spot.avgStarRating} · </span>
+          ) : (
+            <span className="bold">★ New · </span>
+          )}
+        </span>
+        <span>{spot.numReviews} reviews</span>
+      </h2>
       <div className="one-spot-reviews-container">
         <SpotReviews spotId={spotId} />
       </div>
+      <div className="breaker"></div>
     </div>
   );
 }

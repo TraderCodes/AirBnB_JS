@@ -7,7 +7,7 @@
   /* size: 30px; */
   font-size: 30px;
   font-weight: bolder;
-
+transition: 0.5s;
 }
 .hidden {
   display: none;
@@ -26,6 +26,9 @@
   padding-right:100px ;
   align-items: space-between;
   /* margin:0; */
+}
+.logo:hover {
+  color: red;
 }
 .profileButton {
 cursor: pointer;

@@ -55,7 +55,12 @@ const CreateSpotModal = () => {
         <div>
           <div className="modalHead">Create your spot</div>
           <ul>
-            {errors && errors.map((error, id) => <li key={id}>{error}</li>)}
+            {errors &&
+              errors.map((error, id) => (
+                <div style={{ color: 'red' }} key={id}>
+                  {error}
+                </div>
+              ))}
           </ul>
 
           <div>

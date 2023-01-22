@@ -79,7 +79,12 @@ const UpdateSpotForm = ({ setModal, spotId }) => {
         <div className="modalHead">Edit your spot</div>
         <div>
           <ul>
-            {errors && errors.map((error, id) => <li key={id}>{error}</li>)}
+            {errors &&
+              errors.map((error, id) => (
+                <li style={{ color: 'red' }} key={id}>
+                  {error}
+                </li>
+              ))}
           </ul>
 
           <div>

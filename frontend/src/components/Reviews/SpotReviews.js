@@ -27,10 +27,10 @@ const SpotReviews = ({ spotId }) => {
     <>
       {reviewsArr.map((review) => (
         <div>
-          <h2>
+          <h3>
             {review.User.firstName} {review.User.lastName}
-          </h2>
-          <p>{new Date(review.createdAt).toString().slice(3, -42)}</p>
+          </h3>
+          <p className='review-date'>{new Date(review.createdAt).toString().slice(3, -42)}</p>
 
           <p>
             {[...Array(review.stars)].map((star) => (
@@ -39,14 +39,20 @@ const SpotReviews = ({ spotId }) => {
           </p>
 
           <p>
-            <i className="fa fa-light fa-fire" aria-hidden="true"></i>
-            <span>{review.review}</span>
+            <i className="fa fa-light fa-fire" aria-hidden="true"></i>{' '}
+            <span>{review.review}</span>{' '}
             <i className="fa fa-light fa-fire" aria-hidden="true"></i>
           </p>
           <div>
             {review.ReviewImages &&
               review.ReviewImages.map((image) => {
-                return <img style={{ height: '50px' }} src={image.url} />;
+                return (
+                  <img
+                    className="spot-review-image"
+                    // style={{ height: '50px' }}
+                    src={image.url}
+                  />
+                );
               })}
           </div>
         </div>
