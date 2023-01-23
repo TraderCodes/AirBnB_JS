@@ -10,6 +10,7 @@ import Footer from './components/Footer';
 import UserSpots from './components/UserSpots';
 import LoadUserReviews from './components/Reviews/UserReviews';
 import UserReviews from './components/Reviews/UserReviews';
+import PageNotFound from './components/PageNotFound';
 
 function App() {
   const dispatch = useDispatch();
@@ -35,6 +36,10 @@ function App() {
 
           <Route path="/spots/:spotId">
             <LoadSingleSpot />
+          </Route>
+
+          <Route>
+            <PageNotFound />
           </Route>
         </Switch>
       )}
