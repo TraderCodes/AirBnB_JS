@@ -2,6 +2,8 @@ import React, { useEffect } from 'react';
 import { resetReviews, getSpotReviewsTK } from '../../store/reviews';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import noImage from '../../images/noimage.jpg';
+
 // import './Reviews.css';
 
 const SpotReviews = ({ spotId }) => {
@@ -22,7 +24,7 @@ const SpotReviews = ({ spotId }) => {
   }, [dispatch]);
 
   if (!reviewsArr.length) return null;
-
+// if(!reviewsObj) return null
   return (
     <>
       {reviewsArr.map((review) => (
@@ -51,6 +53,11 @@ const SpotReviews = ({ spotId }) => {
                     className="spot-review-image"
                     // style={{ height: '50px' }}
                     src={image.url}
+                    key={image.url}
+                    onError={(event) => {
+                      event.target.src = `${noImage}`;
+                      event.onerror = null;
+                    }}
                   />
                 );
               })}

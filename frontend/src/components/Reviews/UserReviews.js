@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUserReviewsTK } from '../../store/reviews';
-import './Reviews.css'
+import './Reviews.css';
 const UserReviews = () => {
   const dispatch = useDispatch();
   const currentUser = useSelector((state) => state.session.user);
@@ -22,7 +22,9 @@ const UserReviews = () => {
         {reviewsArr.length === 0 ? (
           <>
             <h1>Reviews</h1>
-            <h4>No Reviews!</h4>
+            <div className='noreviews'>
+              <h3>You got no reviews !  </h3>
+            </div>
           </>
         ) : (
           <h1>Your Reviews</h1>
@@ -36,7 +38,7 @@ const UserReviews = () => {
               <div className="user-reviews-wrapper">
                 {reviewsArr.map(
                   (review) => (
-                    console.log(review),
+                    // console.log(review),
                     (<MyReviews key={review.id} review={review} />)
                   )
                 )}

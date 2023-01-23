@@ -44,6 +44,7 @@ export const getSpotReviewsTK = (spotId) => async (dispatch) => {
     dispatch(loadSpotReviews(reviews));
     return data;
   }
+  // return null
 };
 export const getUserReviewsTK = () => async (dispatch) => {
   const res = await csrfFetch('/api/reviews/current');

@@ -1,4 +1,6 @@
 import { useEffect } from 'react';
+import noImage from '../../images/noimage.jpg';
+
 import { NavLink, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllSpotsTK, deleteSingleSpot } from '../../store/spots';
@@ -48,7 +50,15 @@ const UserSpots = () => {
                   to={`/spots/${spot.id}`}
                 >
                   <div className="user-img-div">
-                    <img id="spot-img" src={spot.previewImage} alt={spot.id} />
+                    <img
+                      id="spot-img"
+                      src={spot.previewImage}
+                      alt={spot.id}
+                      onError={(event) => {
+                        event.target.src = `${noImage}`;
+                        event.onerror = null;
+                      }}
+                    />
                   </div>
 
                   <div className="user-info-container">
@@ -95,7 +105,7 @@ const UserSpots = () => {
             );
           })
         ) : (
-          <div>You're not hosting any spots</div>
+          <d1 className='notHosting'>You're not hosting spots</d1>
         )}
       </div>
     </>
