@@ -10,8 +10,8 @@ const CreateSpotModal = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const [url, setUrl] = useState('');
-  const [lat, setLat] = useState('');
-  const [lng, setLng] = useState('');
+  // const [lat, setLat] = useState('');
+  // const [lng, setLng] = useState('');
   const [name, setName] = useState('');
   const [city, setCity] = useState('');
   const [price, setPrice] = useState('');
@@ -28,9 +28,9 @@ const CreateSpotModal = () => {
       address,
       state,
       city,
-      lat,
+      // lat,
       country,
-      lng,
+      // lng,
       name,
       description,
       price,
@@ -110,7 +110,7 @@ const CreateSpotModal = () => {
               />
             </label>
           </div>
-
+{/*
           <div>
             <label className="form-label">
               lat
@@ -123,9 +123,9 @@ const CreateSpotModal = () => {
                 onChange={(e) => setLat(e.target.value)}
               />
             </label>
-          </div>
+          </div> */}
 
-          <div>
+          {/* <div>
             <label className="form-label">
               lng
               <input
@@ -137,7 +137,7 @@ const CreateSpotModal = () => {
                 onChange={(e) => setLng(e.target.value)}
               />
             </label>
-          </div>
+          </div> */}
 
           <div>
             <label className="form-label">

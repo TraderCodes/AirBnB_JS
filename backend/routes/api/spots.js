@@ -30,16 +30,16 @@ const validateSpot = [
   check('country').notEmpty().withMessage('Country is required'),
   check('state').notEmpty().withMessage('State is required'),
   check('city').notEmpty().withMessage('City is required'),
-  check('lat', 'Latitude is not valid')
-    .notEmpty()
-    .bail()
-    .isDecimal()
-    .withMessage('Latitude is not valid'),
-  check('lng', 'Longitude is not valid')
-    .notEmpty()
-    .bail()
-    .isDecimal()
-    .withMessage('Longitude is not valid'),
+  // check('lat', 'Latitude is not valid')
+  //   .notEmpty()
+  //   .bail()
+  //   .isDecimal()
+  //   .withMessage('Latitude is not valid'),
+  // check('lng', 'Longitude is not valid')
+  //   .notEmpty()
+  //   .bail()
+  //   .isDecimal()
+  //   .withMessage('Longitude is not valid'),
   check('name')
     // .notEmpty()
     .isLength({ min: 1, max: 50 })
