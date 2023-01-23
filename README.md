@@ -1,7 +1,6 @@
 
-# FireBnb
 
-FireBnb is a website clone inspired by [AirBnB](https://www.airbnb.com/). It is an online marketplace for lodging, primarily homestays for vacation rentals, and tourism activities.
+# FireBnb
 
 **LIVE SITE: [FireBnb](https://firebnb.onrender.com/)**
 
