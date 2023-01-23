@@ -233,3 +233,10 @@ opacity: 0.85
   margin-right: 4px;
   object-fit: cover;
 }
+.noimage{
+  justify-content: center;
+  display: flex;
+}
+.spot-capitalize{
+  text-transform: capitalize;
+}

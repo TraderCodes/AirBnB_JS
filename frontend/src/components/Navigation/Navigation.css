@@ -154,19 +154,19 @@ width: auto;
     /* left:1301px */
 }
 
-@media screen and (max-width:1600px) {
+@media screen and (max-width:1620px) {
   .demo-user-main,.create-spot-main{
     left:1200px
 
   }
 }
-@media screen and (max-width:1500px) {
+@media screen and (max-width:1520px) {
   .demo-user-main,.create-spot-main{
     left:900px
 
   }
 }
-@media screen and (max-width:1200px) {
+@media screen and (max-width:1220px) {
   .demo-user-main,.create-spot-main{
     left:600px
 

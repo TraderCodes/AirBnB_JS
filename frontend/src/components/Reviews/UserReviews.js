@@ -38,7 +38,7 @@ const UserReviews = () => {
               <div className="user-reviews-wrapper">
                 {reviewsArr.map(
                   (review) => (
-                    console.log(review),
+                    // console.log(review),
                     (<MyReviews key={review.id} review={review} />)
                   )
                 )}

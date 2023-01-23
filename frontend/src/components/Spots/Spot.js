@@ -11,7 +11,15 @@ export default function Spot({ spot }) {
         <div className="allspot-image-container">
           {spot.previewImage ? (
             <div>
-              <img src={spot.previewImage} />
+              <img
+                src={spot.previewImage}
+                // alt={'image not found'}
+                onError={(event) => {
+                  event.target.src =
+                    `${noImage}`;
+                  event.onerror = null;
+                }}
+              />
             </div>
           ) : (
             <div>
@@ -20,8 +28,8 @@ export default function Spot({ spot }) {
           )}
         </div>
 
-        <div >
-          <div >
+        <div>
+          <div>
             <div className="allspot-location">
               {spot.city}, {spot.state}
             </div>
