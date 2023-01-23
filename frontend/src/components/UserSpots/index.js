@@ -105,7 +105,7 @@ const UserSpots = () => {
             );
           })
         ) : (
-          <div>You're not hosting any spots</div>
+          <d1 className='notHosting'>You're not hosting spots</d1>
         )}
       </div>
     </>

@@ -58,7 +58,10 @@
   display: grid;
   color: white;
 }
-
+.notHosting{
+  font-weight: bolder;
+  font-size: 20px;
+}
 .user-submit-button:hover {
   border: 1px rgb(255, 90, 96) solid;
   color: rgb(255, 90, 96);
