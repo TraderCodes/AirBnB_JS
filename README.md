@@ -3,6 +3,7 @@
 # FireBnb
 
 **LIVE SITE: [FireBnb](https://firebnb.onrender.com/)**
+![image](https://user-images.githubusercontent.com/85665271/215016175-8bc8fde3-a64d-4f7c-9d8b-498b5365a364.png)
 
 ## Wiki Link
 
